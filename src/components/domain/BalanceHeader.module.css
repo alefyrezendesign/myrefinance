@@ -1,0 +1,187 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg) var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  background: linear-gradient(160deg, #1A1A22 0%, #12121A 100%);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  gap: var(--spacing-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(0, 210, 106, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Balance Section */
+.balanceSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  position: relative;
+}
+
+.monthSelector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.monthNav {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all var(--transition-base);
+}
+
+.monthNav:hover {
+  color: var(--color-text-primary);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.monthName {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--color-text-secondary);
+  min-width: 130px;
+  text-align: center;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.balanceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.balance {
+  font-size: var(--font-size-hero);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.eyeButton {
+  color: var(--color-text-muted);
+  padding: 6px;
+  transition: color var(--transition-base);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.eyeButton:hover {
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.adjustButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-light);
+  margin-top: 8px;
+  transition: all var(--transition-base);
+  letter-spacing: 0.02em;
+}
+
+.adjustButton:hover {
+  background-color: rgba(255, 255, 255, 0.09);
+  border-color: var(--color-border-medium);
+  color: var(--color-text-primary);
+}
+
+/* Summary Row */
+.summaryRow {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.summaryCard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+}
+
+.summaryIconIncome {
+  color: var(--color-primary-green);
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+}
+
+.summaryIconExpense {
+  color: var(--color-primary-red);
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+}
+
+.summaryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.summaryLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.summaryValueIncome {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary-green);
+  letter-spacing: -0.01em;
+}
+
+.summaryValueExpense {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary-red);
+  letter-spacing: -0.01em;
+}

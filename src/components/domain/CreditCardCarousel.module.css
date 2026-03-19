@@ -1,0 +1,182 @@
+.carouselContainer {
+  width: 100%;
+}
+
+.carouselHeader {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-sm);
+}
+
+.manageButton {
+  color: var(--color-primary-green);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.emptyCard {
+  background-color: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-muted);
+}
+
+.emptyIcon {
+  color: var(--color-border);
+  margin-bottom: var(--spacing-xs);
+}
+
+.addButton {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background-color: rgba(0, 210, 106, 0.08);
+  border-radius: var(--radius-full);
+  color: var(--color-primary-green);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border: 1px solid rgba(0, 210, 106, 0.2);
+  transition: all var(--transition-base);
+}
+
+.addButton:hover {
+  background-color: rgba(0, 210, 106, 0.14);
+}
+
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--transition-base), background-color var(--transition-base), transform var(--transition-base);
+  cursor: pointer;
+}
+
+.card:hover {
+  border-color: var(--color-border-medium);
+  background: var(--color-surface-hover);
+  transform: translateY(-1px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background-color: var(--color-surface-2);
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.invoiceSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.invoiceAmount {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary-red);
+  letter-spacing: -0.02em;
+}
+
+.limitsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.limitRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.limitLabel {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.limitValueAvailable {
+  color: var(--color-primary-green);
+  font-weight: 700;
+}
+
+.limitValueTotal {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.addCardButtonHorizontal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  background-color: transparent;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.addCardButtonHorizontal:hover {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-medium);
+}

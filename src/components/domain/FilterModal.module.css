@@ -1,0 +1,214 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-overlay);
+  display: flex;
+  align-items: flex-end; /* Mobile bottom sheet style */
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@media (min-width: 600px) {
+  .overlay {
+    align-items: center;
+    padding: var(--spacing-lg);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  max-height: 85vh;
+}
+
+@media (min-width: 600px) {
+  .modal {
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.titleRow h2 {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.icon {
+  color: var(--color-primary-green);
+}
+
+.closeBtn {
+  color: var(--color-text-secondary);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-hover);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.pillsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Base Pill */
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.pill:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border-medium);
+  color: var(--color-text-primary);
+}
+
+.pillActive {
+  background-color: rgba(0, 210, 106, 0.08);
+  border-color: rgba(0, 210, 106, 0.25);
+  color: var(--color-primary-green);
+  font-weight: 600;
+}
+
+.footer {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: auto;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.btnClear {
+  flex: 1;
+  padding: 14px 20px;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-base);
+}
+
+.btnClear:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-medium);
+  background-color: var(--color-surface-hover);
+}
+
+.btnApply {
+  flex: 2;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #00D26A, #00A854);
+  color: #000;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-base);
+  box-shadow: 0 4px 16px rgba(0, 210, 106, 0.3);
+  text-align: center;
+}
+
+.btnApply:hover {
+  box-shadow: 0 4px 22px rgba(0, 210, 106, 0.4);
+  transform: translateY(-1px);
+}
+
+.progressiveBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  animation: fadeIn 0.3s ease-in-out;
+  padding-top: var(--spacing-sm);
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.countBadge {
+  color: var(--color-text-muted);
+  font-size: 10px;
+  margin-left: 4px;
+}
+
+.emptyText {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  padding: 8px 0;
+}

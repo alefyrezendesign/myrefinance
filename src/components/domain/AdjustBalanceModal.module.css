@@ -1,0 +1,130 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+  padding: var(--spacing-lg);
+}
+
+.modal {
+  background-color: var(--color-background);
+  width: 100%;
+  max-width: 480px;
+  border-radius: 24px;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--color-border);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.closeButton {
+  color: var(--color-text-muted);
+  transition: color 0.2s;
+  padding: 4px;
+}
+
+.closeButton:hover {
+  color: var(--color-text-primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.infoBox {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+
+.infoBox p {
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--color-text-muted) !important;
+  line-height: 1.4;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.formGroup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.formGroup input {
+  padding: 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.formGroup input:focus {
+  border-color: var(--color-primary-green);
+  background-color: var(--color-surface-hover);
+}
+
+.submitButton {
+  padding: 16px;
+  background: linear-gradient(135deg, #00D26A, #00A854);
+  color: #000;
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  border-radius: var(--radius-full);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  transition: all var(--transition-base);
+  box-shadow: 0 4px 16px rgba(0, 210, 106, 0.3);
+}
+
+.submitButton:hover {
+  box-shadow: 0 6px 20px rgba(0, 210, 106, 0.4);
+  transform: translateY(-1px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

@@ -1,0 +1,131 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.tabsContainer {
+  display: flex;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border-radius: var(--radius-full);
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.tabActive {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-hover);
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.listContainer {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+}
+
+.listItem {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.emptyText {
+  padding: var(--spacing-lg);
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 14px;
+}
+
+.typeBadge {
+  font-size: 11px;
+  background-color: var(--color-background);
+  color: var(--color-text-secondary);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.paddingBottom {
+  height: 40px;
+}

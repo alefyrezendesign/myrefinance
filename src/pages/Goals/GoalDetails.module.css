@@ -1,0 +1,760 @@
+.container {
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--color-text-primary);
+  padding-bottom: 120px;
+  font-family: var(--font-family-sans);
+}
+
+.backBtn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 16px;
+  transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--color-text-primary);
+}
+
+.notFoundCard {
+  background: var(--color-surface);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 32px 16px;
+  text-align: center;
+}
+
+/* PREMIUM HEADER */
+.headerPremium {
+  background: linear-gradient(145deg, rgba(30, 30, 36, 0.95), rgba(18, 18, 22, 0.98));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 32px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glass shine effect */
+.headerPremium::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%, transparent 100%);
+  pointer-events: none;
+  border-radius: 20px;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.titleWrapper {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+}
+
+.titleIcon {
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 210, 106, 0.1);
+  color: var(--color-primary-green);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 210, 106, 0.2);
+  box-shadow: 0 0 16px rgba(0, 210, 106, 0.1);
+}
+
+.titleContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleContent h1 {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+  color: #fff;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.badgeWaitingHeader {
+  display: inline-block;
+  margin-top: 4px;
+  background: rgba(255,152,0,0.15);
+  color: #FFB74D;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid rgba(255,152,0,0.2);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.progressCircleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.progressPercentage {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.percentValue {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-primary-green);
+  line-height: 1;
+  text-shadow: 0 0 16px rgba(0, 200, 83, 0.2);
+}
+
+.dataBlockValueSaved {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary-green);
+  opacity: 0.5;
+}
+
+.dataBlockValueWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inlineEditBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0.4;
+}
+
+.inlineEditBtn:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--color-text-primary);
+  opacity: 1;
+}
+
+.progressLabel {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.progressTrackContainer {
+  padding: 0 2px;
+  margin-bottom: 24px;
+}
+
+.progressLabelsRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progressLabelLeft {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progressLabelRight {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+.progressTrack {
+  height: 6px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #00C853, #69F0AE);
+  border-radius: 3px;
+  position: relative;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressFill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.statsPremiumGrid {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.statPrimaryBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statDivider {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 4px 0;
+  width: 100%;
+}
+
+.statIconWrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(0, 200, 83, 0.1);
+  color: var(--color-primary-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.statPrimaryContent {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.statValueAccumulated {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statValueTarget {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statValueMissing {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary-red);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metaInfoBand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(255,255,255,0.06);
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.sectionTitle {
+  margin-bottom: 16px;
+  padding-left: 4px;
+}
+
+.sectionTitle h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 2px 0;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+
+.sectionTitle p {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* TIMELINE CARDS */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.monthCardWrapper {
+  perspective: 1000px;
+}
+
+.monthCard {
+  background: var(--color-surface);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  display: flex;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 80px;
+}
+
+.monthCardActive {
+  border-color: rgba(0, 200, 83, 0.3);
+  box-shadow: 0 0 16px rgba(0, 200, 83, 0.05);
+  background: var(--color-surface-hover);
+}
+
+.statusIndicator {
+  width: 4px;
+  flex-shrink: 0;
+}
+.indicatorPaid { background: var(--color-primary-green); }
+.indicatorSkipped { background: #FF9800; }
+.indicatorCurrent { background: #2196F3; }
+.indicatorProgress { background: #FFFFFF; }
+.indicatorWaiting { background: rgba(255,255,255,0.1); }
+
+.monthContent {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.monthHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.monthNameContainer {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.monthNameText {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: capitalize;
+  letter-spacing: -0.3px;
+}
+
+.monthYearText {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.statusBadgeArea {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* BADGES */
+.badgePaid, .badgeSkipped, .badgeWaiting, .badgeProgress, .badgeCurrent {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.badgeCurrent {
+  background: rgba(33, 150, 243, 0.15);
+  color: #64B5F6;
+  border: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.badgePaid {
+  background: rgba(0, 230, 118, 0.1);
+  color: #00E676;
+  border: 1px solid rgba(0, 230, 118, 0.2);
+}
+
+.badgeSkipped {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FFB74D;
+  border: 1px solid rgba(255, 152, 0, 0.2);
+}
+
+.badgeWaiting {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.badgeProgress {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* DATA GRID */
+.monthDataGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  background: rgba(0,0,0,0.15);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+.dataBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.dataBlockPlaceholder {
+  flex: 1;
+}
+
+.dataBlockLabel {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dataBlockValueBase {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dataBlockValueSaved {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dataBlockValueSaved.valueActive {
+  color: var(--color-primary-green);
+  text-shadow: 0 0 10px rgba(0,200,83,0.2);
+}
+
+.dataBlockValueMissing {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-red);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* CARDS ACTIONS */
+.cardActionsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 12px;
+}
+
+.actionBtnPrimary {
+  background: linear-gradient(135deg, #00D26A, #00A854);
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: 0 4px 12px rgba(0, 210, 106, 0.25);
+  flex: 1;
+  text-align: center;
+}
+
+.actionBtnPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 210, 106, 0.35);
+}
+
+.actionBtnSkip {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+  text-align: center;
+}
+
+.actionBtnSkip:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* INLINE FORMS */
+.inlineActionArea {
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(0,200,83,0.2);
+  padding: 16px;
+  animation: slideDown 0.3s ease;
+  margin-top: 4px;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.inlineFormHeader {
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.inlineDepositForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 14px;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--color-primary-green);
+  background: rgba(0,200,83,0.05);
+}
+
+.currencySymbol {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.inlineAmountInput {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  width: 100%;
+  outline: none;
+}
+
+.inlineFormActions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.inlineBtnConfirm {
+  background: var(--color-primary-green);
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.inlineBtnConfirm:hover {
+  background: #00E676;
+}
+
+.inlineBtnCancel {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.inlineBtnCancel:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}
+
+.inlineSkipForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skipChoiceBtn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.skipChoiceBtn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.skipChoiceIcon {
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+
+.skipChoiceIcon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.skipChoiceText strong {
+  display: block;
+  font-size: 13px;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.skipChoiceText p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  line-height: 1.3;
+}
+
+.inlineBtnCancelFull {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+
+.inlineBtnCancelFull:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}

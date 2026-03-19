@@ -1,0 +1,604 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 90px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+  background-color: var(--color-surface);
+  padding: 6px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+}
+
+.monthNav {
+  color: var(--color-text-secondary);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.monthNav:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.monthTitle {
+  font-size: var(--font-size-base);
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  padding-bottom: var(--spacing-2xl);
+}
+
+/* Sections */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Premium Card Container */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.summaryCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+.summaryLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.summaryMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.summaryValuePos {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary-green);
+  letter-spacing: -0.01em;
+}
+
+.summaryValueNeg {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary-red);
+  letter-spacing: -0.01em;
+}
+
+.summaryValueAcc {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-info);
+  letter-spacing: -0.01em;
+}
+
+.summaryCompare {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.variationBadge {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.varPositive {
+  background-color: rgba(0, 210, 106, 0.1);
+  color: var(--color-primary-green);
+}
+
+.varNegative {
+  background-color: rgba(255, 77, 106, 0.1);
+  color: var(--color-primary-red);
+}
+
+.iconBlue {
+  color: var(--color-info);
+}
+
+/* Category Rankings */
+.rankingList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rankingItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rankingHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rankingName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.categoryDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rankingValues {
+  text-align: right;
+}
+
+.rankingAmount {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.rankingBarBg {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.rankingBarFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rankingFooter {
+  text-align: right;
+}
+
+.rankingPercent {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+/* Person Analysis */
+.personGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-md);
+}
+
+@media (min-width: 600px) {
+  .personGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.personItem {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.personHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.personName {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.personStats {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--color-border-light);
+  padding-top: 10px;
+}
+
+.personStatCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.personStatCol:last-child {
+  text-align: right;
+}
+
+.personStatLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.personStatValPos {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-primary-green);
+}
+
+.personStatValNeg {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-primary-red);
+}
+
+/* Card Analysis */
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.cardAmount {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.cardBarBg {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.cardBarFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cardBarFillWarn {
+  box-shadow: 0 0 8px rgba(255, 77, 106, 0.5);
+}
+
+.cardFooter {
+  text-align: right;
+}
+
+.cardLimitText {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.rankingAmountExceeded {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-primary-red);
+}
+
+.cardBarFillExceeded {
+  background-color: var(--color-primary-red) !important;
+  box-shadow: 0 0 10px rgba(255, 77, 106, 0.4);
+}
+
+/* Insights UI Professional */
+.insightsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.insightCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+}
+
+.insightCard:hover {
+  border-color: var(--color-border-medium);
+  background-color: var(--color-surface-hover);
+}
+
+.insightIconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.03);
+  flex-shrink: 0;
+}
+
+.insightContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.insightHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.insightTitle {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+}
+
+.insightValue {
+  font-weight: 700;
+  font-size: var(--font-size-md);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.insightDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* Financial Evolution Chart */
+.evolutionChart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  height: 180px;
+  width: 100%;
+}
+
+.chartBars {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  border-bottom: 1px dashed var(--color-border-light);
+  padding-bottom: var(--spacing-sm);
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.chartBars::-webkit-scrollbar {
+  display: none;
+}
+
+.chartCol {
+  flex: 0 0 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  scroll-snap-align: center;
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+}
+
+.chartColSelected {
+  opacity: 1;
+}
+
+.chartColSelected .barIncome {
+  background-color: #00FF66;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.4);
+}
+
+.chartColSelected .barExpense {
+  background-color: #FF3366;
+  box-shadow: 0 0 12px rgba(255, 51, 102, 0.4);
+}
+
+.chartColSelected .chartLabel {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  position: relative;
+}
+
+.chartColSelected .chartLabel::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background-color: var(--color-border-medium);
+  border-radius: 2px;
+}
+
+.chartControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chartArrow {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chartArrow:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-medium);
+}
+
+.barWrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2px;
+  max-width: 32px;
+}
+
+@media (min-width: 600px) {
+  .barWrapper {
+    gap: 6px;
+    max-width: 48px;
+  }
+}
+
+.barIncome, .barExpense {
+  flex: 1;
+  max-width: 16px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 2px; /* Ensure 0 values still show a tiny dot if wanted, or 0 is 0. 2px makes it visible */
+}
+
+.barIncome {
+  background-color: var(--color-primary-green);
+  opacity: 0.9;
+}
+
+.barExpense {
+  background-color: var(--color-primary-red);
+  opacity: 0.9;
+}
+
+.chartLabel {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.chartLegend {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.legendColor {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}

@@ -1,0 +1,157 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xl);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(0, 210, 106, 0.08);
+  color: var(--color-primary-green);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border: 1px solid rgba(0, 210, 106, 0.2);
+  transition: all var(--transition-base);
+}
+
+.addButton:hover {
+  background-color: rgba(0, 210, 106, 0.14);
+  border-color: rgba(0, 210, 106, 0.35);
+}
+
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.emptyState {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--spacing-xl);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border);
+  font-size: var(--font-size-sm);
+}
+
+.cardItem {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  transition: border-color var(--transition-base), background-color var(--transition-base), transform var(--transition-base);
+}
+
+.cardItem:hover {
+  border-color: var(--color-border-medium);
+  background-color: var(--color-surface-hover);
+  transform: translateY(-1px);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.editButton {
+  color: var(--color-text-muted);
+  padding: 6px;
+  border-radius: var(--radius-xs);
+  transition: all var(--transition-base);
+}
+
+.editButton:hover {
+  background-color: var(--color-surface-2);
+  color: var(--color-text-primary);
+}
+
+.cardDetails {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 0;
+}
+
+.detailGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.label {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 500;
+}
+
+.value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.valueGreen {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary-green);
+  letter-spacing: -0.01em;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-border-light);
+  padding-top: 10px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.footerRight {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-primary-green);
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+}
+
+.paddingBottom {
+  height: 40px;
+}

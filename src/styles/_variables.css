@@ -1,0 +1,68 @@
+:root {
+  /* ─── Backgrounds ─── */
+  --color-background: #0E0E11;
+  --color-surface: #17171C;
+  --color-surface-2: #1E1E26;
+  --color-surface-hover: #22222D;
+  --color-overlay: rgba(0, 0, 0, 0.75);
+
+  /* ─── Brand Colors ─── */
+  --color-primary-green: #00D26A;
+  --color-primary-green-dim: rgba(0, 210, 106, 0.15);
+  --color-primary-red: #FF4D6A;
+  --color-primary-red-dim: rgba(255, 77, 106, 0.12);
+  --color-accent: #6C63FF;
+  --color-accent-dim: rgba(108, 99, 255, 0.15);
+  --color-info: #4DABFF;
+  --color-info-dim: rgba(77, 171, 255, 0.15);
+
+  /* ─── Text ─── */
+  --color-text-primary: #F1F1F3;
+  --color-text-secondary: #A0A0B8;
+  --color-text-muted: #6E6E85;
+  --color-text-inverse: #0E0E11;
+
+  /* ─── Borders ─── */
+  --color-border: #2A2A35;
+  --color-border-light: rgba(255, 255, 255, 0.06);
+  --color-border-medium: rgba(255, 255, 255, 0.1);
+
+  /* ─── Typography ─── */
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-base: 15px;
+  --font-size-lg: 17px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --font-size-hero: 42px;
+
+  /* ─── Spacing ─── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* ─── Radii ─── */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ─── Shadows ─── */
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.55);
+  --shadow-green: 0 4px 20px rgba(0, 210, 106, 0.25);
+
+  /* ─── Transitions ─── */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
