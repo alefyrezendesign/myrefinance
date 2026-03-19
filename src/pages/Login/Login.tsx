@@ -7,24 +7,29 @@ import styles from './Login.module.css';
 
 export function Login() {
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // O e-mail do admin está hardcoded para manter a interface de Cofre apenas com senha
+  const ADMIN_EMAIL = 'alefyrezendesign@gmail.com';
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(false);
+    if (!password) return;
     
-    // Simulate slight authenticating delay for premium feel
-    setTimeout(() => {
-      const success = login(password);
-      if (success) {
-        navigate('/', { replace: true });
-      } else {
-        setError(true);
-        setPassword('');
-      }
-    }, 400);
+    setErrorMsg('');
+    setIsLoading(true);
+    
+    const { error } = await login(ADMIN_EMAIL, password);
+    
+    if (!error) {
+      navigate('/', { replace: true });
+    } else {
+      setIsLoading(false);
+      setErrorMsg(error.message.includes('Invalid') ? 'Senha incorreta' : 'Erro ao realizar login. Tente novamente.');
+    }
   };
 
   return (
@@ -79,19 +84,20 @@ export function Login() {
             </div>
             <input 
               type="password" 
-              className={`${styles.passwordInput} ${error ? styles.inputError : ''}`}
+              className={`${styles.passwordInput} ${errorMsg ? styles.inputError : ''}`}
               placeholder="Digite sua senha de acesso" 
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                if (error) setError(false);
+                if (errorMsg) setErrorMsg('');
               }}
+              required
               autoFocus
             />
           </div>
 
           <AnimatePresence>
-            {error && (
+            {errorMsg && (
               <motion.div 
                 className={styles.errorContainer}
                 initial={{ opacity: 0, height: 0, y: -10 }}
@@ -99,7 +105,7 @@ export function Login() {
                 exit={{ opacity: 0, height: 0, y: -10 }}
               >
                 <ShieldAlert size={16} />
-                <span>Senha incorreta. Tente "12345".</span>
+                <span>{errorMsg}</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -109,9 +115,9 @@ export function Login() {
             className={styles.submitButton}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            disabled={password.length === 0}
+            disabled={password.length === 0 || isLoading}
           >
-            <span>Entrar</span>
+            <span>{isLoading ? 'Entrando...' : 'Entrar'}</span>
             <ArrowRight size={20} />
           </motion.button>
         </motion.form>

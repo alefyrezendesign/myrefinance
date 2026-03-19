@@ -1,45 +1,54 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { supabase } from '../lib/supabase';
+import type { User } from '@supabase/supabase-js';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (password: string) => boolean;
-  logout: () => void;
+  user: User | null;
+  login: (email: string, password: string) => Promise<{ error: Error | null }>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check local storage for persistent auth during this phase
-    const auth = localStorage.getItem('myrefinance_auth');
-    if (auth === 'true') {
-      setIsAuthenticated(true);
-    }
-    setLoading(false);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const login = (password: string) => {
-    if (password === '12345') {
-      setIsAuthenticated(true);
-      localStorage.setItem('myrefinance_auth', 'true');
-      return true;
+  const login = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (!error && data.user) {
+      setUser(data.user);
     }
-    return false;
+    return { error };
   };
 
-  const logout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('myrefinance_auth');
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
   };
 
-  if (loading) return null; // Prevent flicker before checking localStorage
+  if (loading) return null;
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated: !!user, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
