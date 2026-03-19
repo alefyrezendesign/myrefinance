@@ -1,9 +1,11 @@
-import { PieChart, CreditCard, List, ChevronRight } from 'lucide-react';
+import { PieChart, CreditCard, List, ChevronRight, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import styles from './Menu.module.css';
 
 export function Menu() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const menuItems = [
     { id: 'cartoes', label: 'Cartões de Crédito', icon: <CreditCard size={24} />, path: '/cards' },
@@ -29,6 +31,19 @@ export function Menu() {
             <ChevronRight size={20} className={styles.chevron} />
           </button>
         ))}
+
+        <button 
+          className={styles.menuItem}
+          onClick={() => {
+            logout();
+            navigate('/login', { replace: true });
+          }}
+        >
+          <div className={styles.itemIcon} style={{ background: 'rgba(255, 77, 106, 0.1)', color: 'var(--color-primary-red)' }}>
+            <LogOut size={24} />
+          </div>
+          <span className={styles.itemLabel} style={{ color: 'var(--color-primary-red)' }}>Sair da conta</span>
+        </button>
       </div>
     </div>
   );
