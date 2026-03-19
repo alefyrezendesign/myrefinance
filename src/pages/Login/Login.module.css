@@ -1,0 +1,193 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #0c0d0c;
+  background-image: radial-gradient(circle at 50% -20%, rgba(0, 210, 106, 0.1) 0%, transparent 80%);
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-lg);
+}
+
+.backgroundGlow {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 90vw;
+  height: 90vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 210, 106, 0.25) 0%, rgba(0, 0, 0, 0) 65%);
+  z-index: 1;
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.backgroundGlow2 {
+  position: absolute;
+  bottom: -20%;
+  right: -20%;
+  width: 80vw;
+  height: 80vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 180, 80, 0.15) 0%, rgba(0, 0, 0, 0) 60%);
+  z-index: 1;
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(18, 20, 18, 0.65);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(0, 210, 106, 0.15);
+  border-top: 1px solid rgba(0, 210, 106, 0.3);
+  border-radius: 24px;
+  padding: 48px var(--spacing-xl);
+  z-index: 10;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logoContainer {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.logoImage {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #A0A0AB 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.inputIconWrapper {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-base);
+}
+
+.passwordInput {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  padding: 16px 16px 16px 48px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+  outline: none;
+  font-family: inherit;
+  letter-spacing: 0.1em;
+}
+
+.passwordInput::placeholder {
+  color: var(--color-text-muted);
+  letter-spacing: normal;
+}
+
+.passwordInput:focus {
+  border-color: var(--color-primary-green);
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 4px rgba(0, 210, 106, 0.15);
+}
+
+.passwordInput:focus + .inputIconWrapper {
+  color: var(--color-primary-green);
+}
+
+.inputError {
+  border-color: var(--color-primary-red);
+}
+
+.inputError:focus {
+  border-color: var(--color-primary-red);
+  box-shadow: 0 0 0 4px rgba(255, 77, 106, 0.15);
+}
+
+.errorContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary-red);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  background: rgba(255, 77, 106, 0.1);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 77, 106, 0.2);
+}
+
+.submitButton {
+  width: 100%;
+  background: var(--color-primary-green);
+  color: #0c0d0c;
+  border: none;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  box-shadow: 0 8px 24px rgba(0, 210, 106, 0.4);
+}
+
+.submitButton:disabled {
+  background: rgba(0, 210, 106, 0.1);
+  color: rgba(0, 210, 106, 0.5);
+  border: 1px solid rgba(0, 210, 106, 0.15);
+  cursor: not-allowed;
+  box-shadow: none;
+}

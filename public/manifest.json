@@ -1,0 +1,21 @@
+{
+  "name": "MyRefinance",
+  "short_name": "MyRefinance",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#17171C",
+  "theme_color": "#17171C",
+  "description": "Sua vida financeira, simplificada.",
+  "icons": [
+    {
+      "src": "/flavicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/flavicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
