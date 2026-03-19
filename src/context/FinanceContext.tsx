@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { generateId } from '../utils/generateId';
-import type { FinanceData, CreditCard, Transaction, Category, FaturaCartao, ParcelaCartao, Person, Goal, BudgetLimit, GoalMonth } from '../types';
+import type { FinanceData, CreditCard, Transaction, Category, FaturaCartao, ParcelaCartao, Person, Goal, BudgetLimit } from '../types';
 import { useAuth } from './AuthContext';
 import { supabase } from '../lib/supabase';
 

@@ -13,41 +13,27 @@ interface AddProgressModalProps {
 }
 
 export function AddProgressModal({ isOpen, onClose, goal }: AddProgressModalProps) {
-  const { data, setData, addTransaction } = useFinance();
+  const { addGoalProgress, addTransaction } = useFinance();
   const [amount, setAmount] = useState('');
 
   // Removed early return
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const value = parseFloat(amount);
     if (!value || value <= 0) {
       alert('Informe um valor válido.');
       return;
     }
 
-    // Add progress to goal
-    const newGoals = data.goals.map(g => {
-      if (g.id === goal.id) {
-        return {
-          ...g,
-          progress: [
-            ...g.progress,
-            { month: new Date().toISOString(), amountSaved: value, status: 'paid' as const }
-          ]
-        };
-      }
-      return g;
-    });
-    
-    setData({ ...data, goals: newGoals });
+    const currentMonth = new Date().toISOString().slice(0, 7); // 'YYYY-MM'
+    await addGoalProgress(goal.id, currentMonth, value, true);
 
-    // Deduct from balance
-    addTransaction({
+    await addTransaction({
       type: 'expense',
       amount: value,
       date: new Date().toISOString(),
       description: `Investimento na meta: ${goal.name}`,
-      categoryId: 'default_category', // ideally an investment category
+      categoryId: 'default_category',
       accountId: 'conta_unica',
       isRecurring: false,
       status: 'paid',

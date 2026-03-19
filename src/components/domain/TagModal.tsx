@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { X, User as UserIcon } from 'lucide-react';
 import { generateId } from '../../utils/generateId';
 import { useFinance } from '../../context/FinanceContext';
+import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../lib/supabase';
 import type { Person } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { modalOverlayVariants, bottomSheetVariants } from '../../styles/motion';
@@ -14,7 +16,8 @@ interface TagModalProps {
 }
 
 export function TagModal({ isOpen, onClose, tagToEdit }: TagModalProps) {
-  const { data, setData } = useFinance();
+  const { refreshData } = useFinance();
+  const { user } = useAuth();
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -31,32 +34,33 @@ export function TagModal({ isOpen, onClose, tagToEdit }: TagModalProps) {
 
   // Removed early return
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!user) return;
     if (!name.trim()) {
       alert('Nome da pessoa/tag é obrigatório.');
       return;
     }
 
     if (tagToEdit) {
-      const newPeople = data.people.map(t => 
-        t.id === tagToEdit.id ? { ...t, name } : t
-      );
-      setData({ ...data, people: newPeople });
+      await supabase.from('people').update({ name }).eq('id', tagToEdit.id);
+      await refreshData();
     } else {
-      const newPerson: Person = {
+      const newPerson = {
         id: generateId(),
+        userId: user.id,
         name,
       };
-      setData({ ...data, people: [...data.people, newPerson] });
+      await supabase.from('people').insert(newPerson);
+      await refreshData();
     }
 
     onClose();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (tagToEdit) {
-      const newPeople = data.people.filter(t => t.id !== tagToEdit.id);
-      setData({ ...data, people: newPeople });
+      await supabase.from('people').delete().eq('id', tagToEdit.id);
+      await refreshData();
       onClose();
     }
   };

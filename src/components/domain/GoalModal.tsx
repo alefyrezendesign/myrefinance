@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { X, Trophy } from 'lucide-react';
 import { generateId } from '../../utils/generateId';
 import { useFinance } from '../../context/FinanceContext';
+import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../lib/supabase';
 import { addMonths } from 'date-fns';
 import type { Goal } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,7 +17,8 @@ interface GoalModalProps {
 }
 
 export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
-  const { data, setData } = useFinance();
+  const { refreshData } = useFinance();
+  const { user } = useAuth();
 
   const [name, setName] = useState('');
   const [targetAmount, setTargetAmount] = useState('');
@@ -55,7 +58,8 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
 
   // Removed early return
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!user) return;
     if (!name || !targetAmount || !durationMonths) {
       alert('Preencha os campos obrigatórios.');
       return;
@@ -64,26 +68,21 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
     const start = new Date(selYear, selMonth, 1);
 
     if (goalToEdit) {
-      const newGoals = data.goals.map(g => {
-        if (g.id === goalToEdit.id) {
-          const newEndDate = addMonths(start, parseInt(durationMonths)).toISOString();
-          return { 
-            ...g, 
-            name, 
-            targetAmount: parseFloat(targetAmount), 
-            durationMonths: parseInt(durationMonths),
-            startDate: start.toISOString(),
-            endDate: newEndDate 
-          };
-        }
-        return g;
-      });
-      setData({ ...data, goals: newGoals });
+      const newEndDate = addMonths(start, parseInt(durationMonths)).toISOString();
+      await supabase.from('goals').update({
+        name, 
+        targetAmount: parseFloat(targetAmount), 
+        durationMonths: parseInt(durationMonths),
+        startDate: start.toISOString(),
+        endDate: newEndDate
+      }).eq('id', goalToEdit.id);
+      await refreshData();
     } else {
       const end = addMonths(start, parseInt(durationMonths));
 
-      const newGoal: Goal = {
+      const newGoal = {
         id: generateId(),
+        userId: user.id,
         name,
         targetAmount: parseFloat(targetAmount),
         durationMonths: parseInt(durationMonths),
@@ -91,16 +90,17 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
         endDate: end.toISOString(),
         progress: [],
       };
-      setData({ ...data, goals: [...data.goals, newGoal] });
+      await supabase.from('goals').insert(newGoal);
+      await refreshData();
     }
 
     onClose();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (goalToEdit) {
-      const newGoals = data.goals.filter(g => g.id !== goalToEdit.id);
-      setData({ ...data, goals: newGoals });
+      await supabase.from('goals').delete().eq('id', goalToEdit.id);
+      await refreshData();
       onClose();
     }
   };

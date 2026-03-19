@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { generateId } from '../../utils/generateId';
 import { useFinance } from '../../context/FinanceContext';
+import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../lib/supabase';
 import type { Category, TransactionType } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { modalOverlayVariants, bottomSheetVariants } from '../../styles/motion';
@@ -29,7 +31,8 @@ interface CategoryModalProps {
 }
 
 export function CategoryModal({ isOpen, onClose, categoryToEdit }: CategoryModalProps) {
-  const { data, setData } = useFinance();
+  const { refreshData } = useFinance();
+  const { user } = useAuth();
 
   const [name, setName] = useState('');
   const [type, setType] = useState<TransactionType>('expense');
@@ -53,7 +56,8 @@ export function CategoryModal({ isOpen, onClose, categoryToEdit }: CategoryModal
 
   // Removed early return
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!user) return;
     if (categoryToEdit?.isProtected) {
       onClose();
       return;
@@ -65,27 +69,27 @@ export function CategoryModal({ isOpen, onClose, categoryToEdit }: CategoryModal
     }
 
     if (categoryToEdit) {
-      const newCats = data.categories.map(c => 
-        c.id === categoryToEdit.id ? { ...c, name, type, color } : c
-      );
-      setData({ ...data, categories: newCats });
+      await supabase.from('categories').update({ name, type, color }).eq('id', categoryToEdit.id);
+      await refreshData();
     } else {
-      const newCategory: Category = {
+      const newCategory = {
         id: generateId(),
+        userId: user.id,
         name,
         type,
         color,
       };
-      setData({ ...data, categories: [...data.categories, newCategory] });
+      await supabase.from('categories').insert(newCategory);
+      await refreshData();
     }
 
     onClose();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (categoryToEdit) {
-      const newCats = data.categories.filter(c => c.id !== categoryToEdit.id);
-      setData({ ...data, categories: newCats });
+      await supabase.from('categories').delete().eq('id', categoryToEdit.id);
+      await refreshData();
       onClose();
     }
   };

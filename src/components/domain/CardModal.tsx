@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useFinance } from '../../context/FinanceContext';
+import { supabase } from '../../lib/supabase';
 import type { CreditCard } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { modalOverlayVariants, bottomSheetVariants } from '../../styles/motion';
@@ -19,7 +20,7 @@ interface CardModalProps {
 }
 
 export function CardModal({ isOpen, onClose, cardToEdit }: CardModalProps) {
-  const { data, setData, addCard } = useFinance();
+  const { refreshData, addCard } = useFinance();
 
   const [name, setName] = useState('');
   const [limit, setLimit] = useState('');
@@ -49,7 +50,7 @@ export function CardModal({ isOpen, onClose, cardToEdit }: CardModalProps) {
 
   // Removed early return
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!name || !limit || !closingDay || !dueDay) {
       alert('Preencha todos os campos.');
       return;
@@ -64,10 +65,10 @@ export function CardModal({ isOpen, onClose, cardToEdit }: CardModalProps) {
     };
 
     if (cardToEdit) {
-      const newCards = data.cards.map(c => c.id === cardToEdit.id ? { ...c, ...payload } : c);
-      setData({ ...data, cards: newCards });
+      await supabase.from('cards').update(payload).eq('id', cardToEdit.id);
+      await refreshData();
     } else {
-      addCard(payload);
+      await addCard(payload);
     }
 
     onClose();

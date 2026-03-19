@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { X, Target, ChevronDown } from 'lucide-react';
 import { generateId } from '../../utils/generateId';
 import { useFinance } from '../../context/FinanceContext';
+import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../lib/supabase';
 import type { BudgetLimit } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { modalOverlayVariants, bottomSheetVariants } from '../../styles/motion';
@@ -14,7 +16,8 @@ interface LimitModalProps {
 }
 
 export function LimitModal({ isOpen, onClose, limitToEdit }: LimitModalProps) {
-  const { data, setData } = useFinance();
+  const { data, refreshData } = useFinance();
+  const { user } = useAuth();
 
   const [categoryId, setCategoryId] = useState('');
   const [amount, setAmount] = useState('');
@@ -53,38 +56,39 @@ export function LimitModal({ isOpen, onClose, limitToEdit }: LimitModalProps) {
 
   // Removed early return
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!user) return;
     if (!categoryId || !amount) {
       alert('Selecione uma categoria e informe o limite.');
       return;
     }
 
     if (limitToEdit) {
-      const newLimits = data.limits.map(l => 
-        l.id === limitToEdit.id ? { ...l, categoryId, amount: parseFloat(amount) } : l
-      );
-      setData({ ...data, limits: newLimits });
+      await supabase.from('limits').update({ categoryId, amount: parseFloat(amount) }).eq('id', limitToEdit.id);
+      await refreshData();
     } else {
       if (data.limits.some(l => l.categoryId === categoryId)) {
         alert('Já existe um limite para esta categoria.');
         return;
       }
 
-      const newLimit: BudgetLimit = {
+      const newLimit = {
         id: generateId(),
+        userId: user.id,
         categoryId,
         amount: parseFloat(amount),
       };
-      setData({ ...data, limits: [...data.limits, newLimit] });
+      await supabase.from('limits').insert(newLimit);
+      await refreshData();
     }
 
     onClose();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (limitToEdit) {
-      const newLimits = data.limits.filter(l => l.id !== limitToEdit.id);
-      setData({ ...data, limits: newLimits });
+      await supabase.from('limits').delete().eq('id', limitToEdit.id);
+      await refreshData();
       onClose();
     }
   };
