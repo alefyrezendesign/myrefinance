@@ -392,12 +392,16 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     await supabase.from('transactions').insert(newTx);
     
     if (newTx.cartaoId) {
-       const relevantFaturas = newState.faturas.filter(f => f.cartaoId === newTx.cartaoId);
-       if (relevantFaturas.length > 0) {
-         await supabase.from('faturas').upsert(relevantFaturas);
-       }
-       if (newParcelas.length > 0) {
-         await supabase.from('parcelas').insert(newParcelas);
+       const relevantFaturas = newState.faturas.filter(f => f.cartaoId === newTx.cartaoId && newParcelas.some(p => p.faturaId === f.id));
+       try {
+         if (relevantFaturas.length > 0) {
+           await supabase.from('faturas').upsert(relevantFaturas);
+         }
+         if (newParcelas.length > 0) {
+           await supabase.from('parcelas').insert(newParcelas);
+         }
+       } catch (err) {
+         console.error('Error saving invoice/installments:', err);
        }
     }
     await refreshData();
@@ -416,17 +420,21 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
        tempState = addTransactionToState(tempState, tx);
     }
     
-    await supabase.from('transactions').insert(newTxs);
-    
-    // Simplification for batch (usually recurring Wallet transactions, no cards)
-    const cardTxs = newTxs.filter(t => t.cartaoId);
-    if (cardTxs.length > 0) {
-       const relevantCards = [...new Set(cardTxs.map(t => t.cartaoId))];
-       const relevantFaturas = tempState.faturas.filter(f => relevantCards.includes(f.cartaoId));
-       const newParcelas = tempState.parcelas.filter(p => newTxs.map(t => t.id).includes(p.lancamentoId));
-       
-       if (relevantFaturas.length > 0) await supabase.from('faturas').upsert(relevantFaturas);
-       if (newParcelas.length > 0) await supabase.from('parcelas').insert(newParcelas);
+    try {
+      await supabase.from('transactions').insert(newTxs);
+      
+      // Simplification for batch (usually recurring Wallet transactions, no cards)
+      const cardTxs = newTxs.filter(t => t.cartaoId);
+      if (cardTxs.length > 0) {
+         const relevantCards = [...new Set(cardTxs.map(t => t.cartaoId))];
+         const newParcelas = tempState.parcelas.filter(p => newTxs.map(t => t.id).includes(p.lancamentoId));
+         const relevantFaturas = tempState.faturas.filter(f => relevantCards.includes(f.cartaoId) && newParcelas.some(p => p.faturaId === f.id));
+         
+         if (relevantFaturas.length > 0) await supabase.from('faturas').upsert(relevantFaturas);
+         if (newParcelas.length > 0) await supabase.from('parcelas').insert(newParcelas);
+      }
+    } catch (err) {
+      console.error('Error saving batch transactions:', err);
     }
     await refreshData();
 
@@ -444,23 +452,29 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       await supabase.from('transactions').update(updatedTx).eq('id', updatedTx.id);
     } else {
       const oldParcelas = data.parcelas.filter(p => p.lancamentoId === updatedTx.id);
-      if (oldParcelas.length > 0) {
-        await supabase.from('parcelas').delete().in('id', oldParcelas.map(p => p.id));
+      try {
+        if (oldParcelas.length > 0) {
+          await supabase.from('parcelas').delete().in('id', oldParcelas.map(p => p.id));
+        }
+        
+        const intermediateState = removeTransactionFromState(data, updatedTx.id);
+        const newState = addTransactionToState(intermediateState, updatedTx);
+        
+        const oldTx = data.transactions.find(t => t.id === updatedTx.id);
+        const relevantCartaoIds = [oldTx?.cartaoId, updatedTx.cartaoId].filter(Boolean);
+        
+        const newParcelas = newState.parcelas.filter(p => p.lancamentoId === updatedTx.id);
+        const relevantFaturasIdSet = new Set([...oldParcelas.map(p => p.faturaId), ...newParcelas.map(p => p.faturaId)]);
+        const modifiedFaturas = newState.faturas.filter(f => relevantCartaoIds.includes(f.cartaoId) && relevantFaturasIdSet.has(f.id));
+        
+        if (modifiedFaturas.length > 0) await supabase.from('faturas').upsert(modifiedFaturas);
+        
+        if (newParcelas.length > 0) await supabase.from('parcelas').insert(newParcelas);
+        
+        await supabase.from('transactions').update(updatedTx).eq('id', updatedTx.id);
+      } catch (err) {
+        console.error('Error updating transaction/installments:', err);
       }
-      
-      const intermediateState = removeTransactionFromState(data, updatedTx.id);
-      const newState = addTransactionToState(intermediateState, updatedTx);
-      
-      const oldTx = data.transactions.find(t => t.id === updatedTx.id);
-      const relevantCartaoIds = [oldTx?.cartaoId, updatedTx.cartaoId].filter(Boolean);
-      const modifiedFaturas = newState.faturas.filter(f => relevantCartaoIds.includes(f.cartaoId));
-      
-      if (modifiedFaturas.length > 0) await supabase.from('faturas').upsert(modifiedFaturas);
-      
-      const newParcelas = newState.parcelas.filter(p => p.lancamentoId === updatedTx.id);
-      if (newParcelas.length > 0) await supabase.from('parcelas').insert(newParcelas);
-      
-      await supabase.from('transactions').update(updatedTx).eq('id', updatedTx.id);
     }
     await refreshData();
   };
@@ -494,13 +508,22 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       }
       
       const affectedCards = [...new Set(parcelasToDelete.map(p => p.cartaoId))];
-      const modifiedFaturas = tempState.faturas.filter(f => affectedCards.includes(f.cartaoId));
+      const faturaIdsToUpdate = new Set(parcelasToDelete.map(p => p.faturaId));
+      const modifiedFaturas = tempState.faturas.filter(f => affectedCards.includes(f.cartaoId) && faturaIdsToUpdate.has(f.id));
       
-      if (modifiedFaturas.length > 0) await supabase.from('faturas').upsert(modifiedFaturas);
-      await supabase.from('parcelas').delete().in('id', parcelasToDelete.map(p => p.id));
+      try {
+        if (modifiedFaturas.length > 0) await supabase.from('faturas').upsert(modifiedFaturas);
+        await supabase.from('parcelas').delete().in('id', parcelasToDelete.map(p => p.id));
+      } catch (err) {
+        console.error('Error deleting parcelas/updating faturas:', err);
+      }
     }
     
-    await supabase.from('transactions').delete().in('id', idsToDelete);
+    try {
+      await supabase.from('transactions').delete().in('id', idsToDelete);
+    } catch (err) {
+      console.error('Error deleting transactions:', err);
+    }
     await refreshData();
   };
 

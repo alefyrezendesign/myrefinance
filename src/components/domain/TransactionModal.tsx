@@ -175,10 +175,10 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
     };
 
     if (editTransactionId) {
-      editTransaction({ ...txData, id: editTransactionId } as Transaction);
+      editTransaction({ ...existingTx, ...txData, id: editTransactionId } as Transaction);
     } else {
-      if (isCard) {
-        // Card handles its own cloning internally in Context via Fatura/Parcela 
+      if (isCard && !isFixed && !isRepeat) {
+        // Card simple purchase or manual installment (handled internally by FinanceContext)
         addTransaction(txData as Omit<Transaction, 'id'>);
       } else {
         // Wallet Transactions generate copies physically here
@@ -189,7 +189,14 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
           for (let i = 0; i < 60; i++) {
             const d = new Date(txData.date);
             d.setMonth(d.getMonth() + i);
-            batch.push({ ...txData, seriesId, date: d.toISOString() } as Omit<Transaction, 'id'>);
+            
+            let currentInvoiceDate = txData.invoiceDate;
+            if (currentInvoiceDate) {
+              const [iy, im] = currentInvoiceDate.split('-');
+              const newInvDate = new Date(parseInt(iy), parseInt(im) - 1 + i, 1);
+              currentInvoiceDate = `${newInvDate.getFullYear()}-${String(newInvDate.getMonth() + 1).padStart(2, '0')}`;
+            }
+            batch.push({ ...txData, seriesId, date: d.toISOString(), invoiceDate: currentInvoiceDate } as Omit<Transaction, 'id'>);
           }
           addTransactionsBatch(batch);
         } else if (isRepeat) {
@@ -201,7 +208,16 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
             else if (repeatPeriod === 'Semanal') d.setDate(d.getDate() + (i * 7));
             else if (repeatPeriod === 'Mensal') d.setMonth(d.getMonth() + i);
             else if (repeatPeriod === 'Anual') d.setFullYear(d.getFullYear() + i);
-            batch.push({ ...txData, seriesId, date: d.toISOString() } as Omit<Transaction, 'id'>);
+            
+            let currentInvoiceDate = txData.invoiceDate;
+            if (currentInvoiceDate && (repeatPeriod === 'Mensal' || repeatPeriod === 'Anual')) {
+              const [iy, im] = currentInvoiceDate.split('-');
+              const mOffset = repeatPeriod === 'Anual' ? i * 12 : i;
+              const newInvDate = new Date(parseInt(iy), parseInt(im) - 1 + mOffset, 1);
+              currentInvoiceDate = `${newInvDate.getFullYear()}-${String(newInvDate.getMonth() + 1).padStart(2, '0')}`;
+            }
+            
+            batch.push({ ...txData, seriesId, date: d.toISOString(), invoiceDate: currentInvoiceDate } as Omit<Transaction, 'id'>);
           }
           addTransactionsBatch(batch);
         } else if (isExpense && isInstallment) {
