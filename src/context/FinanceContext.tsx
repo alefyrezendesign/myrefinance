@@ -26,18 +26,45 @@ interface FinanceContextProps {
 }
 
 const DEFAULT_CATEGORIES: Omit<Category, 'userId'>[] = [
+  // --- Receitas ---
   { id: 'c_salario', type: 'income', name: 'Salário', color: '#00C853' },
   { id: 'c_freela', type: 'income', name: 'Freelancer', color: '#00897B' },
   { id: 'c_emprestimo_rec', type: 'income', name: 'Empréstimo', color: '#29B6F6' },
   { id: 'c_aluguel', type: 'income', name: 'Aluguel', color: '#9CCC65' },
+  { id: 'c_presente_rec', type: 'income', name: 'Presente', color: '#FDD835' },
+  { id: 'c_premio', type: 'income', name: 'Premiação', color: '#FFB300' },
+  { id: 'c_beneficio', type: 'income', name: 'Benefício', color: '#66BB6A' },
+  { id: 'c_reembolso', type: 'income', name: 'Reembolso', color: '#26C6DA' },
+  { id: 'c_venda', type: 'income', name: 'Venda', color: '#AB47BC' },
+  { id: 'c_rendimentos', type: 'income', name: 'Rendimentos', color: '#5C6BC0' },
   { id: 'c_ajuste_pos', type: 'income', name: 'Ajuste de saldo', color: '#78909C', isProtected: true },
 
+  // --- Despesas ---
   { id: 'c_mercado', type: 'expense', name: 'Mercado', color: '#E53935' },
   { id: 'c_padaria', type: 'expense', name: 'Padaria', color: '#FF7043' },
+  { id: 'c_hortifruti', type: 'expense', name: 'Hortifrúti', color: '#1B5E20' },
   { id: 'c_restaurante', type: 'expense', name: 'Restaurante', color: '#D81B60' },
+  { id: 'c_lanche', type: 'expense', name: 'Lanche', color: '#FFCCBC' },
   { id: 'c_transporte', type: 'expense', name: 'Transporte', color: '#2979FF' },
+  { id: 'c_combustivel', type: 'expense', name: 'Combustível', color: '#37474F' },
+  { id: 'c_carro', type: 'expense', name: 'Carro', color: '#0D47A1' },
+  { id: 'c_uber', type: 'expense', name: 'Uber', color: '#263238' },
+  { id: 'c_reforma', type: 'expense', name: 'Reforma', color: '#FF6D00' },
   { id: 'c_energia', type: 'expense', name: 'Energia', color: '#FFF9C4' },
+  { id: 'c_internet', type: 'expense', name: 'Internet', color: '#B2EBF2' },
+  { id: 'c_planomovel', type: 'expense', name: 'Plano Móvel', color: '#8E24AA' },
+  { id: 'c_saude', type: 'expense', name: 'Saúde', color: '#EC407A' },
+  { id: 'c_farmacia', type: 'expense', name: 'Farmácia', color: '#F8BBD0' },
+  { id: 'c_curso', type: 'expense', name: 'Curso', color: '#4A148C' },
+  { id: 'c_lazer', type: 'expense', name: 'Lazer', color: '#C8E6C9' },
   { id: 'c_assinaturas', type: 'expense', name: 'Assinaturas', color: '#7E57C2' },
+  { id: 'c_roupas', type: 'expense', name: 'Roupas', color: '#FF5722' },
+  { id: 'c_maite', type: 'expense', name: 'Maitê', color: '#F48FB1' },
+  { id: 'c_pets', type: 'expense', name: 'Pets', color: '#4DB6AC' },
+  { id: 'c_presentes', type: 'expense', name: 'Presentes', color: '#BA68C8' },
+  { id: 'c_impostos', type: 'expense', name: 'Impostos', color: '#6D4C41' },
+  { id: 'c_dividas', type: 'expense', name: 'Dívidas', color: '#B71C1C' },
+  { id: 'c_reserva', type: 'expense', name: 'Reserva', color: '#C8E6C9' },
   { id: 'c_ajuste_neg', type: 'expense', name: 'Ajuste de saldo', color: '#78909C', isProtected: true },
 ];
 
