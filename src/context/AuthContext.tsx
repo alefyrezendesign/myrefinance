@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { supabase } from '../lib/supabase';
 import type { User } from '@supabase/supabase-js';
+import { initOneSignal, logoutOneSignal } from '../lib/onesignal';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -18,7 +19,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      const u = session?.user ?? null;
+      setUser(u);
+      if (u) initOneSignal(u.id);
       setLoading(false);
     });
 
@@ -36,6 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     if (!error && data.user) {
       setUser(data.user);
+      initOneSignal(data.user.id);
     }
     return { error };
   };
@@ -43,6 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    logoutOneSignal();
   };
 
   if (loading) return null;

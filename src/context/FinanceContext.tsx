@@ -316,6 +316,70 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     await fetchAllData();
   };
 
+  const checkBudgetLimit = async (categoryId: string) => {
+    if (!user) return;
+    const limit = data.limits.find(l => l.categoryId === categoryId);
+    if (!limit) return;
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonthNum = now.getMonth();
+    
+    // Calculate total spent for this category in the current month across ALL transactions
+    // (Wait for refreshData to ensure state is fresh)
+    const totalSpent = data.transactions
+      .filter(t => 
+        t.categoryId === categoryId && 
+        t.type === 'expense' && 
+        new Date(t.date).getFullYear() === currentYear && 
+        new Date(t.date).getMonth() === currentMonthNum
+      )
+      .reduce((acc, t) => acc + t.amount, 0);
+
+    const percentage = (totalSpent / limit.amount) * 100;
+    
+    if (percentage >= 85) {
+      const monthYear = `${currentYear}-${String(currentMonthNum + 1).padStart(2, '0')}`;
+      
+      // Check if already notified this month to avoid spam
+      const { data: alreadyNotified } = await supabase
+        .from('notifications_log')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('type', 'limite_85')
+        .eq('reference_id', categoryId)
+        .eq('month_year', monthYear)
+        .maybeSingle();
+
+      if (!alreadyNotified) {
+        const categoryName = data.categories.find(c => c.id === categoryId)?.name || 'Categoria';
+        
+        // Trigger Edge Function for Push Notification
+        try {
+          await supabase.functions.invoke('send-notification', {
+            body: { 
+              type: 'limite_85', 
+              categoryId, 
+              percentage: Math.round(percentage),
+              categoryName,
+              userId: user.id
+            }
+          });
+          
+          // Log the notification
+          await supabase.from('notifications_log').insert({
+            user_id: user.id,
+            type: 'limite_85',
+            reference_id: categoryId,
+            month_year: monthYear
+          });
+        } catch (err) {
+          console.error('Failed to trigger limit notification:', err);
+        }
+      }
+    }
+  };
+
   const addTransaction = async (transactionData: Omit<Transaction, 'id' | 'userId'>) => {
     if (!user) return;
     const newTx: Transaction = { ...transactionData, id: generateId(), userId: user.id };
@@ -337,6 +401,11 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
        }
     }
     await refreshData();
+    
+    // Check limit after refresh
+    if (newTx.type === 'expense' && !newTx.cartaoId) {
+      await checkBudgetLimit(newTx.categoryId);
+    }
   };
 
   const addTransactionsBatch = async (transactionsData: Omit<Transaction, 'id' | 'userId'>[]) => {
@@ -360,6 +429,12 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
        if (newParcelas.length > 0) await supabase.from('parcelas').insert(newParcelas);
     }
     await refreshData();
+
+    // Check limits for impacted categories
+    const expenseCategories = [...new Set(newTxs.filter(t => t.type === 'expense' && !t.cartaoId).map(t => t.categoryId))];
+    for (const catId of expenseCategories) {
+      await checkBudgetLimit(catId);
+    }
   };
 
   const editTransaction = async (updatedTx: Transaction) => {
