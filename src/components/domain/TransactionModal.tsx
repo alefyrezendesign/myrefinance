@@ -94,6 +94,11 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
             if (t.type === 'expense') {
               setIsInstallment(t.parcelado || false);
               setInstallmentsCount(t.quantidadeParcelas || 2);
+              // Detect if it was a repeat (has seriesId, not installment, not fixed)
+              if (t.seriesId && !t.parcelado && !t.isRecurring) {
+                setIsRepeat(true);
+                if (t.quantidadeParcelas) setRepeatQuantity(t.quantidadeParcelas);
+              }
             } else {
               setIsReceived(t.status === 'paid');
               setIsRepeat(t.isRecurring);
@@ -162,7 +167,9 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
       observation,
       isRecurring: isFixed,
       parcelado: isExpense ? isInstallment : isRepeat,
-      quantidadeParcelas: isExpense ? (isInstallment ? installmentsCount : undefined) : (isRepeat ? repeatQuantity : undefined),
+      quantidadeParcelas: isExpense 
+        ? (isInstallment ? installmentsCount : (isRepeat ? repeatQuantity : undefined)) 
+        : (isRepeat ? repeatQuantity : undefined),
       seriesId: existingTx ? existingTx.seriesId : undefined,
       status: (isFixed || isRepeat || isInstallment) ? 'pending' : (isExpense ? 'paid' : (isReceived ? 'paid' : 'pending')),
     };
@@ -185,8 +192,8 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
             batch.push({ ...txData, seriesId, date: d.toISOString() } as Omit<Transaction, 'id'>);
           }
           addTransactionsBatch(batch);
-        } else if (!isExpense && isRepeat) {
-          // Income repeats by period limit
+        } else if (isRepeat) {
+          // Repeats by period limit (income or expense — same full value each time)
           const batch: Omit<Transaction, 'id'>[] = [];
           for (let i = 0; i < repeatQuantity; i++) {
             const d = new Date(txData.date);
@@ -469,7 +476,7 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
                     <input type="checkbox" checked={isInstallment} onChange={() => {
                       const val = !isInstallment;
                       setIsInstallment(val);
-                      if (val) setIsFixed(false);
+                      if (val) { setIsFixed(false); setIsRepeat(false); }
                     }} />
                     <span className={styles.slider}></span>
                   </label>
@@ -497,6 +504,72 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
                   </div>
                 )}
               </div>
+            )}
+
+            {/* EXPENSE ONLY: Repetir */}
+            {isExpense && (
+              <>
+                <div className={styles.listItem}>
+                  <div className={styles.listIcon}>
+                    <Repeat size={24} />
+                  </div>
+                  <div className={styles.listContent} style={{ borderBottom: isRepeat ? 'none' : ''}}>
+                    <span className={styles.listText}>Repetir</span>
+                    <label className={styles.switch}>
+                      <input type="checkbox" checked={isRepeat} onChange={() => {
+                        const val = !isRepeat;
+                        setIsRepeat(val);
+                        if (val) { setIsFixed(false); setIsInstallment(false); }
+                      }} />
+                      <span className={styles.slider}></span>
+                    </label>
+                  </div>
+                </div>
+                {isRepeat && (
+                  <div className={styles.repeatExpanded}>
+                    <p className={styles.repeatLabel}>Como sua despesa se repete?</p>
+                    <div className={styles.repeatRow}>
+                      <div className={styles.repeatIcon}><Repeat size={20} /></div>
+                      <div className={styles.repeatField}>
+                        <span>Quantidade</span>
+                        <div className={styles.quantityControl}>
+                          <ChevronDown size={20} onClick={() => setRepeatQuantity(Math.max(2, repeatQuantity - 1))} />
+                          <span>{repeatQuantity}</span>
+                          <ChevronUp size={20} onClick={() => setRepeatQuantity(repeatQuantity + 1)} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.repeatRow} style={{ position: 'relative' }} ref={periodDropdownRef}>
+                      <div className={styles.repeatIcon}><Repeat size={20} /></div>
+                      <div className={styles.repeatField} onClick={() => setShowPeriodDropdown(!showPeriodDropdown)} style={{ cursor: 'pointer' }}>
+                        <span>Período</span>
+                        <div className={styles.periodControl}>
+                          <span>{repeatPeriod}</span>
+                          <ChevronDown size={16} style={{ transform: showPeriodDropdown ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                        </div>
+                      </div>
+                      {showPeriodDropdown && (
+                        <div className={styles.inlineDropdown} style={{ left: 0, right: 0, top: '100%' }}>
+                          {['Diário', 'Semanal', 'Mensal', 'Anual'].map(p => (
+                            <div
+                              key={p}
+                              className={`${styles.dropdownItem} ${repeatPeriod === p ? styles.dropdownItemActive : ''}`}
+                              onClick={() => { setRepeatPeriod(p); setShowPeriodDropdown(false); }}
+                            >
+                              <span>{p}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    {rawAmount > 0 && (
+                      <div className={styles.installmentPreview}>
+                        {repeatQuantity}x de <strong>{formatCurrency(rawAmount)}</strong> (mesmo valor)
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
             )}
 
             {/* Fixa */}
