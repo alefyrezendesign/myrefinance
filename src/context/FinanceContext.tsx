@@ -277,7 +277,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       }));
 
       parsedTxs.forEach(tx => {
-        if (!tx.cartaoId && tx.status === 'paid' && tx.accountId === 'conta_unica') {
+        // Only wallet transactions (no cartaoId) that are paid affect the balance.
+        // Invoice payments (isInvoicePayment) are wallet expenses so they are included here.
+        if (!tx.cartaoId && tx.status === 'paid') {
           if (tx.type === 'income') balance += tx.amount;
           else if (tx.type === 'expense') balance -= tx.amount;
         }
@@ -448,22 +450,34 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const editTransaction = async (updatedTx: Transaction) => {
     if (!user) return;
     
-    if (!updatedTx.cartaoId) {
-      await supabase.from('transactions').update(updatedTx).eq('id', updatedTx.id);
+    // Ensure userId is always present for RLS compliance
+    if (!updatedTx.userId) updatedTx.userId = user.id;
+    
+    // Sanitize: remove undefined values so Supabase receives explicit null for cleared fields
+    const sanitized = Object.fromEntries(
+      Object.entries(updatedTx).filter(([, v]) => v !== undefined)
+    ) as Transaction;
+    
+    if (!sanitized.cartaoId) {
+      try {
+        await supabase.from('transactions').update(sanitized).eq('id', sanitized.id);
+      } catch (err) {
+        console.error('Error updating transaction:', err);
+      }
     } else {
-      const oldParcelas = data.parcelas.filter(p => p.lancamentoId === updatedTx.id);
+      const oldParcelas = data.parcelas.filter(p => p.lancamentoId === sanitized.id);
       try {
         if (oldParcelas.length > 0) {
           await supabase.from('parcelas').delete().in('id', oldParcelas.map(p => p.id));
         }
         
-        const intermediateState = removeTransactionFromState(data, updatedTx.id);
-        const newState = addTransactionToState(intermediateState, updatedTx);
+        const intermediateState = removeTransactionFromState(data, sanitized.id);
+        const newState = addTransactionToState(intermediateState, sanitized);
         
-        const oldTx = data.transactions.find(t => t.id === updatedTx.id);
-        const relevantCartaoIds = [oldTx?.cartaoId, updatedTx.cartaoId].filter(Boolean);
+        const oldTx = data.transactions.find(t => t.id === sanitized.id);
+        const relevantCartaoIds = [oldTx?.cartaoId, sanitized.cartaoId].filter(Boolean);
         
-        const newParcelas = newState.parcelas.filter(p => p.lancamentoId === updatedTx.id);
+        const newParcelas = newState.parcelas.filter(p => p.lancamentoId === sanitized.id);
         const relevantFaturasIdSet = new Set([...oldParcelas.map(p => p.faturaId), ...newParcelas.map(p => p.faturaId)]);
         const modifiedFaturas = newState.faturas.filter(f => relevantCartaoIds.includes(f.cartaoId) && relevantFaturasIdSet.has(f.id));
         
@@ -471,7 +485,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         
         if (newParcelas.length > 0) await supabase.from('parcelas').insert(newParcelas);
         
-        await supabase.from('transactions').update(updatedTx).eq('id', updatedTx.id);
+        await supabase.from('transactions').update(sanitized).eq('id', sanitized.id);
       } catch (err) {
         console.error('Error updating transaction/installments:', err);
       }
@@ -553,6 +567,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       categoryId: 'c_ajuste_neg',
       accountId: 'conta_unica',
       isRecurring: false,
+      isInvoicePayment: true,
       status: 'paid',
     };
 

@@ -10,7 +10,7 @@ export function useReportsData(data: FinanceData, targetMonth: Date) {
 
       // Wallet transactions (excluding credit card transactions and invoice payments)
       const walletTransactions = data.transactions.filter(t => {
-        if (t.cartaoId || t.description.startsWith('Fatura ')) return false;
+        if (t.cartaoId || t.isInvoicePayment) return false;
         const d = new Date(t.date);
         return d.getMonth() === month && d.getFullYear() === year;
       });

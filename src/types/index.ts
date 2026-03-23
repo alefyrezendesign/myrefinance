@@ -49,6 +49,7 @@ export interface Transaction extends BaseEntity {
   observation?: string;
   personId?: string;
   
+  isInvoicePayment?: boolean; // True for auto-generated invoice payment transactions
   status: 'paid' | 'pending'; 
 }
 

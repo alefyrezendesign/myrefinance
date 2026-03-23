@@ -4,6 +4,7 @@ import {
   AlignLeft, Bookmark, 
   Pin, Repeat, ChevronRight, ChevronDown, ChevronUp, User, Mic, CreditCard, Receipt, Pencil, Wallet, X
 } from 'lucide-react';
+import { addMonths, addDays, addWeeks, addYears } from 'date-fns';
 import { useFinance } from '../../context/FinanceContext';
 import { DeleteRecurrenceModal } from './DeleteRecurrenceModal';
 import { generateId } from '../../utils/generateId';
@@ -160,22 +161,28 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
       date: new Date(date + 'T12:00:00').toISOString(),
       description,
       categoryId,
-      personId,
+      personId: personId || null,
       accountId: isCard ? 'conta_unica' : accountId,
-      cartaoId: isCard ? accountId : undefined,
-      invoiceDate: isCard ? invoiceMonth : undefined,
-      observation,
+      cartaoId: isCard ? accountId : null,
+      invoiceDate: isCard ? invoiceMonth : null,
+      observation: observation || null,
       isRecurring: isFixed,
+      isInvoicePayment: false,
       parcelado: isExpense ? isInstallment : isRepeat,
       quantidadeParcelas: isExpense 
-        ? (isInstallment ? installmentsCount : (isRepeat ? repeatQuantity : undefined)) 
-        : (isRepeat ? repeatQuantity : undefined),
-      seriesId: existingTx ? existingTx.seriesId : undefined,
+        ? (isInstallment ? installmentsCount : (isRepeat ? repeatQuantity : null)) 
+        : (isRepeat ? repeatQuantity : null),
+      seriesId: existingTx ? existingTx.seriesId : null,
       status: (isFixed || isRepeat || isInstallment) ? 'pending' : (isExpense ? 'paid' : (isReceived ? 'paid' : 'pending')),
     };
 
     if (editTransactionId) {
-      editTransaction({ ...existingTx, ...txData, id: editTransactionId } as Transaction);
+      // Preserve userId, createdAt, and other DB-only fields from the existing transaction
+      const preserved = {
+        userId: existingTx?.userId,
+        createdAt: existingTx?.createdAt,
+      };
+      editTransaction({ ...existingTx, ...txData, ...preserved, id: editTransactionId } as Transaction);
     } else {
       if (isCard && !isFixed && !isRepeat) {
         // Card simple purchase or manual installment (handled internally by FinanceContext)
@@ -187,8 +194,7 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
           // Fixed generates 60 monthly copies
           const batch: Omit<Transaction, 'id'>[] = [];
           for (let i = 0; i < 60; i++) {
-            const d = new Date(txData.date);
-            d.setMonth(d.getMonth() + i);
+            const d = addMonths(new Date(txData.date), i);
             
             let currentInvoiceDate = txData.invoiceDate;
             if (currentInvoiceDate) {
@@ -203,11 +209,12 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
           // Repeats by period limit (income or expense — same full value each time)
           const batch: Omit<Transaction, 'id'>[] = [];
           for (let i = 0; i < repeatQuantity; i++) {
-            const d = new Date(txData.date);
-            if (repeatPeriod === 'Diário') d.setDate(d.getDate() + i);
-            else if (repeatPeriod === 'Semanal') d.setDate(d.getDate() + (i * 7));
-            else if (repeatPeriod === 'Mensal') d.setMonth(d.getMonth() + i);
-            else if (repeatPeriod === 'Anual') d.setFullYear(d.getFullYear() + i);
+            let d: Date;
+            const baseDate = new Date(txData.date);
+            if (repeatPeriod === 'Diário') d = addDays(baseDate, i);
+            else if (repeatPeriod === 'Semanal') d = addWeeks(baseDate, i);
+            else if (repeatPeriod === 'Anual') d = addYears(baseDate, i);
+            else d = addMonths(baseDate, i); // Mensal (default)
             
             let currentInvoiceDate = txData.invoiceDate;
             if (currentInvoiceDate && (repeatPeriod === 'Mensal' || repeatPeriod === 'Anual')) {
@@ -225,8 +232,7 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
           const batch: Omit<Transaction, 'id'>[] = [];
           const splitAmount = parseFloat((rawAmount / installmentsCount).toFixed(2));
           for (let i = 0; i < installmentsCount; i++) {
-            const d = new Date(txData.date);
-            d.setMonth(d.getMonth() + i);
+            const d = addMonths(new Date(txData.date), i);
             batch.push({ 
               ...txData, 
               amount: splitAmount, 

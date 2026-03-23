@@ -47,7 +47,7 @@ export function FilterModal({ isOpen, onClose, currentFilters, onApply }: Filter
 
     // 1. Lançamentos do mês (excluindo faturas diretas)
     const walletTx = data.transactions.filter(t => {
-      if (t.cartaoId || t.description.startsWith('Fatura ')) return false;
+      if (t.cartaoId || t.isInvoicePayment) return false;
       const d = new Date(t.date);
       return d.getMonth() === month && d.getFullYear() === year;
     });

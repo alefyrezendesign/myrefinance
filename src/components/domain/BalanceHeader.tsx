@@ -28,7 +28,7 @@ export function BalanceHeader() {
   
   // Despesa do mês: despesas normais pagas + faturas pagas (sem duplicar pagamento da fatura)
   const normalExpenses = monthTransactions
-    .filter(t => t.type === 'expense' && !t.cartaoId && !t.description.startsWith('Fatura ') && t.status === 'paid')
+    .filter(t => t.type === 'expense' && !t.cartaoId && !t.isInvoicePayment && t.status === 'paid')
     .reduce((acc, t) => acc + t.amount, 0);
 
   const monthFaturas = (data.faturas || [])

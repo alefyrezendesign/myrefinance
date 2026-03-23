@@ -39,7 +39,7 @@ export function CashFlow() {
   // Normal wallet transactions for the month
   const walletTransactions = data.transactions.filter(t => {
     // Ignore direct card transactions (they go to the invoice) AND ignore invoice payments to avoid double counting
-    if (t.cartaoId || t.description.startsWith('Fatura ')) return false;
+    if (t.cartaoId || t.isInvoicePayment) return false;
     const d = new Date(t.date);
     return d.getMonth() === currentMonth.getMonth() && d.getFullYear() === currentMonth.getFullYear();
   });
@@ -72,10 +72,10 @@ export function CashFlow() {
 
   // Saldo Atual = soma de TODAS as receitas recebidas - TODAS as despesas pagas - TODAS as faturas pagas (global, todos os meses)
   const allPaidIncomes = data.transactions
-    .filter(t => !t.cartaoId && !t.description.startsWith('Fatura ') && t.type === 'income' && t.status === 'paid')
+    .filter(t => !t.cartaoId && !t.isInvoicePayment && t.type === 'income' && t.status === 'paid')
     .reduce((acc, t) => acc + t.amount, 0);
   const allPaidExpenses = data.transactions
-    .filter(t => !t.cartaoId && !t.description.startsWith('Fatura ') && t.type === 'expense' && t.status === 'paid')
+    .filter(t => !t.cartaoId && !t.isInvoicePayment && t.type === 'expense' && t.status === 'paid')
     .reduce((acc, t) => acc + t.amount, 0);
   const allPaidInvoices = (data.faturas || [])
     .filter(f => f.status === 'paga')
