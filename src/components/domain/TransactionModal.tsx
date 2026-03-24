@@ -254,21 +254,33 @@ export function TransactionModal({ isOpen, type, onClose, editTransactionId }: T
   const handleDelete = () => {
     if (!editTransactionId) return;
     const tx = data.transactions.find(t => t.id === editTransactionId);
+    if (!tx) return;
     
-    const isCardTx = !!tx?.cartaoId;
-    const looksRecurring = tx?.seriesId || tx?.isRecurring || tx?.parcelado;
+    const isCardTx = !!tx.cartaoId;
+    const hasRecurrence = tx.seriesId || tx.isRecurring;
+    const isInstallment = tx.parcelado;
 
-    if (looksRecurring && !isCardTx) {
+    // Se é recorrente (Fixo ou Repetir/Série), mostra sempre o modal de opções
+    if (hasRecurrence && !isCardTx) {
       setShowRecurrenceOptions(true);
       return;
     }
-    
+
+    // Caso especial: Cartão. 
     if (isCardTx) {
-       if (window.confirm('Excluir esta parcela apagará a compra inteira do cartão. Tem certeza?')) {
-         deleteTransaction(editTransactionId);
-         onClose();
-       }
-       return;
+      // Se for uma série no cartão (ex: Netflix todo mês sem ser parcelamento único), também mostra as opções
+      if (hasRecurrence) {
+        setShowRecurrenceOptions(true);
+        return;
+      }
+      // Se for parcelamento único no cartão (ex: compra de 1000 reais em 10x), apaga tudo
+      if (isInstallment) {
+        if (window.confirm('Excluir esta parcela apagará a compra inteira do cartão. Tem certeza?')) {
+          deleteTransaction(editTransactionId);
+          onClose();
+        }
+        return;
+      }
     }
     
     if (window.confirm('Tem certeza que deseja excluir?')) {
