@@ -198,7 +198,8 @@ function addTransactionToState(state: FinanceData, tx: Transaction): FinanceData
         dataFechamento: closingDate.toISOString(),
         dataVencimento: dueDate.toISOString(),
         valorTotal: 0,
-        status: 'aberta'
+        status: 'aberta',
+        createdAt: new Date().toISOString()
       };
       newFaturas.push(fatura);
     } else {
@@ -219,6 +220,7 @@ function addTransactionToState(state: FinanceData, tx: Transaction): FinanceData
       dataCompra: tx.date,
       referenciaAno: year,
       referenciaMes: month,
+      createdAt: new Date().toISOString()
     };
     newParcelas.push(parcela);
 
@@ -384,7 +386,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const addTransaction = async (transactionData: Omit<Transaction, 'id' | 'userId'>) => {
     if (!user) return;
-    const newTx: Transaction = { ...transactionData, id: generateId(), userId: user.id };
+    const newTx: Transaction = { ...transactionData, id: generateId(), userId: user.id, createdAt: new Date().toISOString() };
     
     // Simulate locally to find exactly what faturas/parcelas to upsert
     const oldParcelasLength = data.parcelas.length;
@@ -430,7 +432,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const addTransactionsBatch = async (transactionsData: Omit<Transaction, 'id' | 'userId'>[]) => {
     if (!user) return;
-    const newTxs = transactionsData.map(td => ({ ...td, id: generateId(), userId: user.id }));
+    const newTxs = transactionsData.map(td => ({ ...td, id: generateId(), userId: user.id, createdAt: new Date().toISOString() }));
     let tempState = data;
     for (const tx of newTxs) {
        tempState = addTransactionToState(tempState, tx);
