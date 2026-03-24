@@ -248,9 +248,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         supabase.from('categories').select('*'),
         supabase.from('people').select('*'),
         supabase.from('cards').select('*'),
-        supabase.from('transactions').select('*').order('date', { ascending: false }),
-        supabase.from('faturas').select('*'),
-        supabase.from('parcelas').select('*'),
+        supabase.from('transactions').select('*').order('date', { ascending: false }).limit(3000),
+        supabase.from('faturas').select('*').limit(3000),
+        supabase.from('parcelas').select('*').limit(3000),
         supabase.from('goals').select('*'),
         supabase.from('limits').select('*'),
       ]);
