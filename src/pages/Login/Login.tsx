@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Lock, ArrowRight, ShieldAlert } from 'lucide-react';
+import { Lock, ArrowRight, ShieldAlert, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Login.module.css';
 
@@ -9,6 +9,7 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -83,7 +84,7 @@ export function Login() {
               <Lock size={20} className={styles.inputIcon} />
             </div>
             <input 
-              type="password" 
+              type={showPassword ? "text" : "password"} 
               className={`${styles.passwordInput} ${errorMsg ? styles.inputError : ''}`}
               placeholder="Digite sua senha de acesso" 
               value={password}
@@ -94,6 +95,14 @@ export function Login() {
               required
               autoFocus
             />
+            <button 
+              type="button"
+              className={styles.eyeButton}
+              onClick={() => setShowPassword(!showPassword)}
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
           </div>
 
           <AnimatePresence>

@@ -123,12 +123,35 @@
   color: var(--color-text-primary);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  padding: 16px 16px 16px 48px;
+  padding: 16px 48px 16px 48px;
   border-radius: var(--radius-md);
   transition: all var(--transition-fast);
   outline: none;
   font-family: inherit;
   letter-spacing: 0.1em;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  z-index: 5;
+}
+
+.eyeButton:hover {
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .passwordInput::placeholder {
