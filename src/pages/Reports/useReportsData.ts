@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { subMonths, addMonths } from 'date-fns';
 import type { FinanceData } from '../../types';
 
-export function useReportsData(data: FinanceData, targetMonth: Date) {
+export function useReportsData(data: FinanceData, targetMonth: Date, chartOffset: number = 0) {
   return useMemo(() => {
     const getMonthData = (date: Date) => {
       const month = date.getMonth();
@@ -196,15 +196,16 @@ export function useReportsData(data: FinanceData, targetMonth: Date) {
       });
     }
 
-    // Evolution Chart (13 months total: 6 back, current, 6 forward)
-    const evolution = Array.from({ length: 13 }).map((_, i) => {
-      const d = addMonths(targetMonth, i - 6);
+    // Evolution Chart (5 months total: 2 back, current, 2 forward)
+    const evolution = Array.from({ length: 5 }).map((_, i) => {
+      const monthDiff = (i - 2) + chartOffset;
+      const d = addMonths(targetMonth, monthDiff);
       const mData = getMonthData(d);
       return {
         monthLabel: d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', ''),
         income: mData.totalIncome,
         expense: mData.totalExpense,
-        isCurrentSelected: i === 6 // 6 is exactly the targetMonth offset (0)
+        isCurrentSelected: monthDiff === 0
       };
     });
 
@@ -218,5 +219,5 @@ export function useReportsData(data: FinanceData, targetMonth: Date) {
       evolution,
       maxEvolutionValue
     };
-  }, [data, targetMonth]);
+  }, [data, targetMonth, chartOffset]);
 }

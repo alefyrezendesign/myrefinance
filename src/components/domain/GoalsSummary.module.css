@@ -1,7 +1,7 @@
 .emptyCard {
   background-color: var(--color-surface);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border-medium);
+  border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
@@ -10,59 +10,60 @@
   gap: var(--spacing-sm);
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: background-color var(--transition-base), border-color var(--transition-base);
+  transition: all var(--transition-base);
 }
 
 .emptyCard:hover {
   background-color: var(--color-surface-hover);
-  border-color: var(--color-text-muted);
+  border-style: solid;
+  border-color: var(--color-border-medium);
 }
 
 .emptyIcon {
-  color: var(--color-border);
+  color: var(--color-border-medium);
   margin-bottom: var(--spacing-xs);
 }
 
 .linkText {
   color: var(--color-primary-green);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 /* ─── Card list ─── */
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 .goalCard {
   background: var(--color-surface);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--spacing-md);
   border: 1px solid var(--color-border);
   cursor: pointer;
-  transition: background-color var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+  transition: background-color var(--transition-base), transform var(--transition-fast), border-color var(--transition-base);
 }
 
 .goalCard:hover {
   background: var(--color-surface-hover);
   border-color: var(--color-border-medium);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .goalName {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .durationText {
@@ -71,49 +72,51 @@
   background: var(--color-info-dim);
   padding: 4px 10px;
   border-radius: var(--radius-full);
-  font-weight: 600;
-  border: 1px solid rgba(77, 171, 255, 0.2);
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .values {
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .savedText {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-green);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .totalText {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 /* ─── Progress bar ─── */
 .progressBarBg {
   width: 100%;
-  height: 5px;
-  background-color: rgba(255, 255, 255, 0.07);
+  height: var(--progress-height);
+  background-color: var(--color-surface-2);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
 }
 
 .progressBarFill {
   height: 100%;
-  background: linear-gradient(90deg, #00A854, #00D26A);
+  background: var(--color-primary-green);
   border-radius: var(--radius-full);
-  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 8px var(--color-primary-green-dim);
 }
 
 /* ─── Footer info ─── */
 .footerWrapper {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--spacing-sm);
 }
 
 .totalMissingRow {
@@ -129,21 +132,21 @@
 
 .totalMissingText strong {
   color: var(--color-text-secondary);
-  font-weight: 600;
+  font-weight: var(--font-weight-medium);
 }
 
 .percentText {
   font-size: var(--font-size-xs);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-green);
 }
 
 /* ─── Month status box ─── */
 .monthStatusBox {
-  background: rgba(255, 255, 255, 0.025);
-  padding: 11px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border-light);
+  background: var(--color-surface-2);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
 }
@@ -152,7 +155,7 @@
   font-size: 10px;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.08em;
 }
 
@@ -162,7 +165,7 @@
   gap: 8px;
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--color-border);
 }
 
 .monthCol {
@@ -180,21 +183,21 @@
 
 .monthColValue {
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   letter-spacing: -0.01em;
 }
 
 .monthColValueSuccess {
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-green);
   letter-spacing: -0.01em;
 }
 
 .monthColValueDanger {
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-red);
   letter-spacing: -0.01em;
 }
@@ -205,7 +208,7 @@
   gap: 4px;
   color: var(--color-primary-red);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-top: 6px;
 }
 
@@ -215,7 +218,7 @@
   gap: 4px;
   color: var(--color-primary-green);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-top: 6px;
 }
 

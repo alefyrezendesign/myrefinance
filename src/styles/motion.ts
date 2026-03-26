@@ -112,17 +112,15 @@ export const staggereContainerVariants: Variants = {
 };
 
 export const listItemVariants: Variants = {
-  initial: { opacity: 0, y: 10, scale: 0.98 },
+  initial: { opacity: 0, y: 10 },
   animate: { 
     opacity: 1, 
     y: 0, 
-    scale: 1,
     transition: { duration: motionDurations.base, ease: motionEasings.default }
   },
   exit: { 
     opacity: 0, 
     y: -5, 
-    scale: 0.98,
     transition: { duration: motionDurations.fast, ease: motionEasings.exit } 
   },
 };

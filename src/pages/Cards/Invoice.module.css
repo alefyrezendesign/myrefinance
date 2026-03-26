@@ -12,11 +12,12 @@
 
 .backButton {
   color: var(--color-text-secondary);
-  padding: 8px;
-  border-radius: 50%;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all var(--transition-fast);
 }
 
 .backButton:hover {
@@ -25,9 +26,36 @@
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.titleIconBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 22px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border-light);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.titleIconBadge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .monthSelector {
@@ -38,15 +66,18 @@
   padding: var(--spacing-sm);
   border-radius: var(--radius-full);
   margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .monthNav {
   color: var(--color-text-secondary);
-  padding: 8px;
+  padding: var(--spacing-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
 }
 
 .monthNav:hover {
@@ -61,15 +92,17 @@
 }
 
 .monthName {
-  font-size: 16px;
+  font-size: var(--font-size-base);
   text-transform: capitalize;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .invoiceStatus {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
 }
 
 .invoiceSummary {
@@ -78,27 +111,32 @@
   align-items: center;
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-lg);
-  background-color: var(--color-surface);
+  background: linear-gradient(160deg, var(--color-surface-elevated) 0%, var(--color-surface) 100%);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border-light);
+  border: 1px solid var(--color-border-medium);
+  border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-sm);
 }
 
 .summaryLabel {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  margin-bottom: 4px;
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
 }
 
 .summaryAmount {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.04em;
 }
 
 .summarySub {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
 }
 
 .transactionsList {
@@ -113,7 +151,9 @@
   padding: var(--spacing-xl);
   background-color: var(--color-surface);
   border-radius: var(--radius-md);
-  border: 1px dashed var(--color-border);
+  border: 1px dashed var(--color-border-medium);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .transactionItem {
@@ -124,6 +164,12 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-light);
   gap: var(--spacing-md);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.transactionItem:hover {
+  background-color: var(--color-surface-hover);
+  transform: translateX(4px);
 }
 
 .tDate {
@@ -133,15 +179,16 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  background-color: rgba(255,255,255,0.05);
+  background-color: var(--color-surface-2);
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-light);
 }
 
 .tDate span:first-child {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
@@ -150,17 +197,21 @@
 }
 
 .tDesc {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .tInstallment {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   margin-top: 2px;
+  font-weight: var(--font-weight-medium);
 }
 
 .tAmount {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.02em;
 }

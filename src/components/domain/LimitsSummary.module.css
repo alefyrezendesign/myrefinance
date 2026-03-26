@@ -1,7 +1,7 @@
 .emptyCard {
   background-color: var(--color-surface);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border-medium);
+  border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
@@ -10,106 +10,124 @@
   gap: var(--spacing-sm);
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: background-color var(--transition-base), border-color var(--transition-base);
+  transition: all var(--transition-base);
 }
 
 .emptyCard:hover {
   background-color: var(--color-surface-hover);
-  border-color: var(--color-text-muted);
+  border-style: solid;
+  border-color: var(--color-border-medium);
 }
 
 .emptyIcon {
-  color: var(--color-border);
+  color: var(--color-border-medium);
   margin-bottom: var(--spacing-xs);
 }
 
 .linkText {
   color: var(--color-primary-green);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 /* ─── Card list ─── */
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 .limitCard {
   background: var(--color-surface);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--spacing-md);
   border: 1px solid var(--color-border);
   cursor: pointer;
-  transition: background-color var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+  transition: background-color var(--transition-base), transform var(--transition-fast), border-color var(--transition-base);
 }
 
 .limitCard:hover {
   background: var(--color-surface-hover);
   border-color: var(--color-border-medium);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .categoryName {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .values {
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .spentText {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .spentExceeded {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-red);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .totalText {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  margin-top: 1px;
+}
+
+.valuesRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--spacing-sm);
 }
 
 /* ─── Progress bar ─── */
 .progressBarBg {
   width: 100%;
-  height: 5px;
-  background-color: rgba(255, 255, 255, 0.07);
+  height: var(--progress-height);
+  background-color: var(--color-surface-2);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-bottom: 8px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.percentBadge {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-2);
 }
 
 .progressBarFill {
   height: 100%;
-  background: linear-gradient(90deg, #00A854, #00D26A);
+  background: var(--color-primary-green);
   border-radius: var(--radius-full);
-  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 8px var(--color-primary-green-dim);
 }
 
 .progressBarDanger {
   height: 100%;
-  background: linear-gradient(90deg, #CC1A36, #FF4D6A);
+  background: var(--color-primary-red);
   border-radius: var(--radius-full);
+  box-shadow: 0 0 8px var(--color-primary-red-dim);
 }
 
 /* ─── Footer ─── */
@@ -119,13 +137,13 @@
 }
 
 .remainingText {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-muted);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .exceededText {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--color-primary-red);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }

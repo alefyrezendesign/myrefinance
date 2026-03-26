@@ -99,28 +99,38 @@ export function Limits() {
             >
               <div className={styles.cardHeader}>
                 <div className={styles.cardTitle}>
-                  <span style={{ width: 14, height: 14, borderRadius: '50%', backgroundColor: category?.color || '#555', display: 'inline-block' }} />
+                  <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: category?.color || '#555', display: 'inline-block', flexShrink: 0 }} />
                   <h3>{category?.name || 'Desconhecida'}</h3>
                 </div>
-                <span className={styles.percent}>{percentage.toFixed(0)}%</span>
+                <span className={styles.percent} style={{ color: category?.color || 'var(--color-text-secondary)' }}>{percentage.toFixed(0)}%</span>
               </div>
-              
-              <div className={styles.progressContainer}>
-                <div className={styles.progressBar}>
-                  <div 
-                    className={styles.progressFill} 
-                    style={{ 
-                      width: `${percentage}%`,
-                      background: category?.color || 'var(--color-primary-green)'
-                    }} 
-                  />
+
+              <div className={styles.valuesRow}>
+                <div className={styles.values}>
+                  <span className={isExceeded ? styles.spentExceeded : styles.spentText}>
+                    {formatCurrency(spent)}
+                  </span>
+                  <span className={styles.totalText}> / {formatCurrency(limit.amount)}</span>
                 </div>
-                <div className={styles.amounts}>
-                  <span className={styles.spent}>{formatCurrency(spent)}</span>
-                  <span className={styles.target}>{formatCurrency(limit.amount)}</span>
+                <div className={styles.footer}>
+                  {isExceeded ? (
+                    <span className={styles.exceededText}>Ultrapassou {formatCurrency(spent - limit.amount)}</span>
+                  ) : (
+                    <span className={styles.remainingText}>Falta {formatCurrency(limit.amount - spent)}</span>
+                  )}
                 </div>
               </div>
-              
+
+              <div className={styles.progressBar}>
+                <div 
+                  className={styles.progressFill} 
+                  style={{ 
+                    width: `${percentage}%`,
+                    background: category?.color || 'var(--color-primary-green)'
+                  }} 
+                />
+              </div>
+
               {hasWarning && (
                 <div className={styles.cardFooter}>
                   <div className={styles.criticalWarning}>

@@ -9,32 +9,35 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   background-color: var(--color-surface);
   padding: 6px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .monthNav {
   color: var(--color-text-secondary);
-  padding: 8px 10px;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-full);
-  transition: background-color var(--transition-base), color var(--transition-base);
+  transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
 }
 
 .monthNav:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
+  transform: scale(1.05);
 }
 
 .monthTitle {
   font-size: var(--font-size-base);
   text-transform: capitalize;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   letter-spacing: -0.01em;
 }
@@ -44,7 +47,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-2xl);
   padding-bottom: var(--spacing-2xl);
 }
 
@@ -52,7 +55,7 @@
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
 }
 
 .sectionHeader {
@@ -63,47 +66,53 @@
 
 .sectionTitle {
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
 }
 
 /* Premium Card Container */
 .card {
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border-medium);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
   box-shadow: var(--shadow-sm);
 }
 
 .summaryGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  gap: 12px;
 }
 
 .summaryCard {
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-2);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 10px 12px;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.summaryCard:hover {
+  transform: translateY(-2px);
 }
 
 .summaryLabel {
   font-size: 10px;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
   margin-bottom: 2px;
 }
 
@@ -112,53 +121,57 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 8px;
 }
 
 .summaryValuePos {
-  font-size: var(--font-size-md);
-  font-weight: 700;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-green);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .summaryValueNeg {
-  font-size: var(--font-size-md);
-  font-weight: 700;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-red);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .summaryValueAcc {
-  font-size: var(--font-size-md);
-  font-weight: 700;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
   color: var(--color-info);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .summaryCompare {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
 }
 
 .variationBadge {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
   font-size: 10px;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
 }
 
 .varPositive {
-  background-color: rgba(0, 210, 106, 0.1);
+  background-color: var(--color-primary-green-dim);
   color: var(--color-primary-green);
+  border: 1px solid rgba(0, 210, 106, 0.2);
 }
 
 .varNegative {
-  background-color: rgba(255, 77, 106, 0.1);
+  background-color: var(--color-primary-red-dim);
   color: var(--color-primary-red);
+  border: 1px solid rgba(244, 63, 94, 0.2);
 }
 
 .iconBlue {
@@ -169,13 +182,13 @@
 .rankingList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .rankingItem {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .rankingHeader {
@@ -187,17 +200,18 @@
 .rankingName {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .categoryDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
   flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .rankingValues {
@@ -206,17 +220,18 @@
 
 .rankingAmount {
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .rankingBarBg {
   width: 100%;
-  height: 6px;
-  background-color: rgba(255, 255, 255, 0.05);
+  height: 8px;
+  background-color: var(--color-surface-2);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .rankingBarFill {
@@ -227,34 +242,75 @@
 
 .rankingFooter {
   text-align: right;
+  margin-top: 4px;
 }
 
 .rankingPercent {
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-muted);
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background: transparent;
+  border: 1px dashed var(--color-border-medium);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toggleBtn:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  border-style: solid;
 }
 
 /* Person Analysis */
 .personGrid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-md);
 }
 
 @media (min-width: 600px) {
   .personGrid {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .personItem {
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-md);
-  padding: 14px;
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+  transition: transform var(--transition-fast);
+}
+
+@media (min-width: 600px) {
+  .personItem {
+    flex: auto;
+  }
+}
+
+.personItem:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-border-medium);
 }
 
 .personHeader {
@@ -265,22 +321,23 @@
 
 .personName {
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .personStats {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  border-top: 1px solid var(--color-border-light);
-  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
 }
 
 .personStatCol {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .personStatCol:last-child {
@@ -291,32 +348,35 @@
   font-size: 10px;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
+  font-weight: var(--font-weight-bold);
 }
 
 .personStatValPos {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-green);
+  letter-spacing: -0.01em;
 }
 
 .personStatValNeg {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-red);
+  letter-spacing: -0.01em;
 }
 
 /* Card Analysis */
 .cardList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .cardItem {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .cardHeader {
@@ -328,25 +388,26 @@
 .cardName {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
 }
 
 .cardAmount {
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .cardBarBg {
   width: 100%;
-  height: 6px;
-  background-color: rgba(255, 255, 255, 0.05);
+  height: 8px;
+  background-color: var(--color-surface-2);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .cardBarFill {
@@ -356,27 +417,30 @@
 }
 
 .cardBarFillWarn {
-  box-shadow: 0 0 8px rgba(255, 77, 106, 0.5);
+  box-shadow: 0 0 12px rgba(255, 77, 106, 0.5);
 }
 
 .cardFooter {
   text-align: right;
+  margin-top: 4px;
 }
 
 .cardLimitText {
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
 }
 
 .rankingAmountExceeded {
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-red);
+  letter-spacing: -0.01em;
 }
 
 .cardBarFillExceeded {
   background-color: var(--color-primary-red) !important;
-  box-shadow: 0 0 10px rgba(255, 77, 106, 0.4);
+  box-shadow: 0 0 12px rgba(255, 77, 106, 0.4);
 }
 
 /* Insights UI Professional */
@@ -391,32 +455,36 @@
   align-items: center;
   gap: 16px;
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  padding: 16px;
-  border-radius: var(--radius-lg);
-  transition: all 0.2s ease;
+  border: 1px solid var(--color-border-medium);
+  padding: 16px 20px;
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
 .insightCard:hover {
-  border-color: var(--color-border-medium);
-  background-color: var(--color-surface-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .insightIconCircle {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.03);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-2);
   flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--glow-subtle);
 }
 
 .insightContent {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
 }
 
@@ -429,43 +497,45 @@
 }
 
 .insightTitle {
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-base);
+  letter-spacing: -0.01em;
 }
 
 .insightValue {
-  font-weight: 700;
-  font-size: var(--font-size-md);
-  font-family: var(--font-mono);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .insightDesc {
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 /* Financial Evolution Chart */
 .evolutionChart {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-  height: 180px;
+  gap: var(--spacing-md);
+  height: 200px;
   width: 100%;
 }
 
 .chartBars {
   flex: 1;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-end;
-  border-bottom: 1px dashed var(--color-border-light);
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: var(--spacing-sm);
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  gap: 8px;
+  overflow-x: hidden;
   scrollbar-width: none;
 }
 
@@ -474,15 +544,14 @@
 }
 
 .chartCol {
-  flex: 0 0 45px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   height: 100%;
-  scroll-snap-align: center;
-  opacity: 0.35;
-  transition: opacity 0.3s ease;
+  opacity: 0.4;
+  transition: opacity var(--transition-fast);
 }
 
 .chartColSelected {
@@ -490,55 +559,56 @@
 }
 
 .chartColSelected .barIncome {
-  background-color: #00FF66;
-  box-shadow: 0 0 12px rgba(0, 255, 102, 0.4);
+  background-color: var(--color-primary-green);
+  box-shadow: 0 0 16px rgba(0, 210, 106, 0.4);
 }
 
 .chartColSelected .barExpense {
-  background-color: #FF3366;
-  box-shadow: 0 0 12px rgba(255, 51, 102, 0.4);
+  background-color: var(--color-primary-red);
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.4);
 }
 
 .chartColSelected .chartLabel {
   color: var(--color-text-primary);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   position: relative;
 }
 
 .chartColSelected .chartLabel::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: -6px;
   left: 10%;
   width: 80%;
   height: 2px;
-  background-color: var(--color-border-medium);
-  border-radius: 2px;
+  background-color: var(--color-text-primary);
+  border-radius: var(--radius-full);
 }
 
 .chartControls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .chartArrow {
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-2);
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .chartArrow:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
   border-color: var(--color-border-medium);
+  transform: scale(1.1);
 }
 
 .barWrapper {
@@ -547,37 +617,38 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 2px;
-  max-width: 32px;
+  gap: 4px;
+  max-width: 36px;
 }
 
 @media (min-width: 600px) {
   .barWrapper {
-    gap: 6px;
-    max-width: 48px;
+    gap: 8px;
+    max-width: 56px;
   }
 }
 
 .barIncome, .barExpense {
   flex: 1;
-  max-width: 16px;
+  max-width: 18px;
   border-radius: 4px 4px 0 0;
   transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  min-height: 2px; /* Ensure 0 values still show a tiny dot if wanted, or 0 is 0. 2px makes it visible */
+  min-height: 2px;
 }
 
 .barIncome {
   background-color: var(--color-primary-green);
-  opacity: 0.9;
+  opacity: 0.7;
 }
 
 .barExpense {
   background-color: var(--color-primary-red);
-  opacity: 0.9;
+  opacity: 0.7;
 }
 
 .chartLabel {
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
   text-transform: capitalize;
 }
@@ -585,20 +656,23 @@
 .chartLegend {
   display: flex;
   justify-content: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
+  margin-top: 4px;
 }
 
 .legendItem {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 11px;
   color: var(--color-text-secondary);
-  font-weight: 500;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .legendColor {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-sm);
 }

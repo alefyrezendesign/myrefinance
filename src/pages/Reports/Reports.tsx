@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, BarChart3, TrendingUp, TrendingDown, Layers, Users, CreditCard, Sparkles, Activity, LineChart, Target, AlertTriangle, PieChart } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, BarChart3, TrendingUp, TrendingDown, Layers, Users, CreditCard, Sparkles, Activity, LineChart, Target, AlertTriangle, PieChart, ChevronUp, ChevronDown } from 'lucide-react';
 import { format, subMonths, addMonths } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useFinance } from '../../context/FinanceContext';
@@ -11,6 +11,13 @@ export function Reports() {
   // Using an internal localMonth if we don't want to change the global month just by viewing reports,
   // but keeping it synced with global is better UX so it matches CashFlow
   const [localMonth, setLocalMonth] = useState(currentMonth);
+  const [chartOffset, setChartOffset] = useState(0);
+  const [isExpensesExpanded, setIsExpensesExpanded] = useState(false);
+  const [isIncomesExpanded, setIsIncomesExpanded] = useState(false);
+
+  useEffect(() => {
+    setChartOffset(0);
+  }, [localMonth]);
 
   const handlePrevMonth = () => {
     setLocalMonth(prev => subMonths(prev, 1));
@@ -22,7 +29,7 @@ export function Reports() {
     setCurrentMonth(prev => addMonths(prev, 1));
   };
 
-  const { current, previous, variations, insights, evolution, maxEvolutionValue } = useReportsData(data, localMonth);
+  const { current, previous, variations, insights, evolution, maxEvolutionValue } = useReportsData(data, localMonth, chartOffset);
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -64,13 +71,13 @@ export function Reports() {
             <div className={styles.chartControls}>
               <button 
                 className={styles.chartArrow}
-                onClick={() => document.getElementById('evolution-scroll')?.scrollBy({ left: -150, behavior: 'smooth' })}
+                onClick={() => setChartOffset(prev => Math.max(prev - 1, -2))}
               >
                 <ChevronLeft size={16} />
               </button>
               <button 
                 className={styles.chartArrow}
-                onClick={() => document.getElementById('evolution-scroll')?.scrollBy({ left: 150, behavior: 'smooth' })}
+                onClick={() => setChartOffset(prev => Math.min(prev + 1, 2))}
               >
                 <ChevronRight size={16} />
               </button>
@@ -148,13 +155,13 @@ export function Reports() {
               {insights.map((insight, idx) => {
                 const renderIcon = () => {
                    switch (insight.id) {
-                     case 'biggest_expense': return <PieChart size={20} className="text-muted" />;
+                     case 'biggest_expense': return <PieChart size={20} style={{ color: 'var(--color-info)' }} />;
                      case 'expense_increase': return <AlertTriangle size={20} style={{ color: 'var(--color-primary-red)' }} />;
                      case 'expense_decrease': return <TrendingDown size={20} style={{ color: 'var(--color-primary-green)' }} />;
                      case 'card_warning': return <CreditCard size={20} style={{ color: 'var(--color-primary-red)' }} />;
                      case 'goals_success': return <Target size={20} style={{ color: 'var(--color-primary-green)' }} />;
-                     case 'goals_missing': return <Target size={20} className="text-muted" />;
-                     default: return <Sparkles size={20} className="text-muted" />;
+                     case 'goals_missing': return <Target size={20} style={{ color: 'var(--color-warning)' }} />;
+                     default: return <Sparkles size={20} style={{ color: 'var(--color-info)' }} />;
                    }
                 };
                 return (
@@ -193,7 +200,7 @@ export function Reports() {
               <p className="text-muted text-sm text-center">Nenhuma despesa no período.</p>
             ) : (
               <div className={styles.rankingList}>
-                {current.expensesByCategory.map(cat => {
+                {(isExpensesExpanded ? current.expensesByCategory : current.expensesByCategory.slice(0, 4)).map(cat => {
                   const percentOfTotal = ((cat.total / current.totalExpense) * 100).toFixed(1);
                   const barWidth = `${(cat.total / current.maxExpenseCategory) * 100}%`;
                   
@@ -220,6 +227,18 @@ export function Reports() {
                     </div>
                   );
                 })}
+                {current.expensesByCategory.length > 4 && (
+                  <button 
+                    className={styles.toggleBtn}
+                    onClick={() => setIsExpensesExpanded(!isExpensesExpanded)}
+                  >
+                    {isExpensesExpanded ? (
+                      <>Ver menos <ChevronUp size={14} /></>
+                    ) : (
+                      <>Ver todas ({current.expensesByCategory.length}) <ChevronDown size={14} /></>
+                    )}
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -237,7 +256,7 @@ export function Reports() {
               <p className="text-muted text-sm text-center">Nenhuma receita no período.</p>
             ) : (
               <div className={styles.rankingList}>
-                {current.incomesByCategory.map(cat => {
+                {(isIncomesExpanded ? current.incomesByCategory : current.incomesByCategory.slice(0, 4)).map(cat => {
                   const percentOfTotal = ((cat.total / current.totalIncome) * 100).toFixed(1);
                   const barWidth = `${(cat.total / current.maxIncomeCategory) * 100}%`;
                   
@@ -264,6 +283,18 @@ export function Reports() {
                     </div>
                   );
                 })}
+                {current.incomesByCategory.length > 4 && (
+                  <button 
+                    className={styles.toggleBtn}
+                    onClick={() => setIsIncomesExpanded(!isIncomesExpanded)}
+                  >
+                    {isIncomesExpanded ? (
+                      <>Ver menos <ChevronUp size={14} /></>
+                    ) : (
+                      <>Ver todas ({current.incomesByCategory.length}) <ChevronDown size={14} /></>
+                    )}
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -350,10 +381,9 @@ export function Reports() {
                 {current.limitsTracking.map(limit => {
                   const usagePercent = Math.min((limit.spent / limit.limit) * 100, 100);
                   const isExceeded = usagePercent >= 100;
-                  const isWarning = usagePercent >= 80 && !isExceeded;
+                  
                   let dotColor = limit.color;
                   if (isExceeded) dotColor = 'var(--color-primary-red)';
-                  else if (isWarning) dotColor = 'var(--color-warning, #f5a623)';
 
                   return (
                     <div key={limit.id} className={styles.cardItem}>
@@ -368,7 +398,7 @@ export function Reports() {
                       </div>
                       <div className={styles.cardBarBg}>
                         <div 
-                          className={`${styles.cardBarFill} ${isExceeded ? styles.cardBarFillExceeded : (isWarning ? styles.cardBarFillWarn : '')}`}
+                          className={`${styles.cardBarFill} ${isExceeded ? styles.cardBarFillExceeded : ''}`}
                           style={{ width: `${usagePercent}%`, backgroundColor: dotColor }} 
                         />
                       </div>

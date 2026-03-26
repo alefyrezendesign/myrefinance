@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, CreditCard, ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CreditCard, ChevronUp, ChevronDown, Check } from 'lucide-react';
 import { format, addMonths, subMonths } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
@@ -207,7 +207,7 @@ export function CashFlow() {
       </div>
 
       <div className={styles.transactionsList}>
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence>
           {filteredList.length === 0 ? (
             <motion.div 
               key="empty"
@@ -221,7 +221,7 @@ export function CashFlow() {
             </motion.div>
           ) : (
             Object.entries(grouped).map(([dateKey, items]) => (
-              <motion.div layout="position" key={dateKey} className={styles.dateGroup}>
+              <motion.div key={dateKey} className={styles.dateGroup}>
               <div className={styles.dateDivider}>
                 <span className={styles.dateLabel}>
                   {dateKey === today 
@@ -258,7 +258,6 @@ export function CashFlow() {
 
                   return (
                     <motion.div 
-                      layout
                       variants={listItemVariants}
                       initial="initial"
                       animate="animate"
@@ -267,8 +266,11 @@ export function CashFlow() {
                       className={styles.transactionCard}
                       onClick={() => navigate(`/cards/${item.cartaoId}/invoice`, { state: { month: currentMonth.toISOString() } })}
                     >
-                      <div style={{ width: 14, display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
-                        <CreditCard size={18} color={catColor} />
+                      <div 
+                        className={styles.tFaturaBadge} 
+                        style={{ borderLeftColor: catColor, borderLeftWidth: '3px' }}
+                      >
+                        <CreditCard size={12} color={catColor} />
                       </div>
                       <div className={styles.tDetails}>
                         <p className={styles.tDesc}>Fatura {card?.name || 'Cartão'}</p>
@@ -279,7 +281,8 @@ export function CashFlow() {
                           -{formatCurrency(item.valorTotal)}
                         </p>
                         <p className={`${styles.tStatus} ${!isPaid ? styles.tStatusPending : ''}`} style={statusColorStyle}>
-                          {statusText}
+                          {isPaid && <Check size={10} />}
+                          <span>{statusText}</span>
                         </p>
                       </div>
                     </motion.div>
@@ -292,7 +295,6 @@ export function CashFlow() {
                 const isPaid = item.status === 'paid';
                 return (
                   <motion.div 
-                    layout
                     variants={listItemVariants}
                     initial="initial"
                     animate="animate"
@@ -311,7 +313,8 @@ export function CashFlow() {
                         {item.type === 'expense' ? '- ' : ''}{formatCurrency(item.amount)}
                       </p>
                       <p className={`${styles.tStatus} ${!isPaid ? styles.tStatusPending : ''}`}>
-                        {item.type === 'income' ? (isPaid ? 'recebido' : 'pendente') : (isPaid ? 'pago' : 'pendente')}
+                        {isPaid && <Check size={10} />}
+                        <span>{item.type === 'income' ? (isPaid ? 'recebido' : 'pendente') : (isPaid ? 'pago' : 'pendente')}</span>
                       </p>
                     </div>
                   </motion.div>
@@ -326,7 +329,7 @@ export function CashFlow() {
       {createPortal(
         <motion.div 
           className={styles.summaryFooter} 
-          style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '12px', paddingBottom: '20px' }}
+          style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}

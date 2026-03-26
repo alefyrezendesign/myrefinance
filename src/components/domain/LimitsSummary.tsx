@@ -64,13 +64,23 @@ export function LimitsSummary() {
                 <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: category.color, display: 'inline-block', flexShrink: 0 }} />
                 <span className={styles.categoryName}>{category.name}</span>
               </div>
+              <span className={styles.percentBadge} style={{ color: category.color }}>{progressPercent.toFixed(0)}%</span>
             </div>
             
-            <div className={styles.values}>
-              <span className={isExceeded ? styles.spentExceeded : styles.spentText}>
-                {formatCurrency(spent)}
-              </span>
-              <span className={styles.totalText}> / {formatCurrency(limit.amount)}</span>
+            <div className={styles.valuesRow}>
+              <div className={styles.values}>
+                <span className={isExceeded ? styles.spentExceeded : styles.spentText}>
+                  {formatCurrency(spent)}
+                </span>
+                <span className={styles.totalText}> / {formatCurrency(limit.amount)}</span>
+              </div>
+              <div className={styles.footer}>
+                {isExceeded ? (
+                  <span className={styles.exceededText}>Ultrapassou {formatCurrency(Math.abs(remaining))}</span>
+                ) : (
+                  <span className={styles.remainingText}>Falta {formatCurrency(remaining)}</span>
+                )}
+              </div>
             </div>
 
             <div className={styles.progressBarBg}>
@@ -78,14 +88,6 @@ export function LimitsSummary() {
                 className={isExceeded ? styles.progressBarDanger : styles.progressBarFill}
                 style={{ width: `${progressPercent}%`, background: category.color }}
               />
-            </div>
-
-            <div className={styles.footer}>
-              {isExceeded ? (
-                <span className={styles.exceededText}>Ultrapassou {formatCurrency(Math.abs(remaining))}</span>
-              ) : (
-                <span className={styles.remainingText}>Falta {formatCurrency(remaining)}</span>
-              )}
             </div>
           </div>
         );

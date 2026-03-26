@@ -1,5 +1,6 @@
 import { BalanceHeader } from '../../components/domain/BalanceHeader';
 import { CreditCardCarousel } from '../../components/domain/CreditCardCarousel';
+import { Link } from 'react-router-dom';
 import { LimitsSummary } from '../../components/domain/LimitsSummary';
 import { GoalsSummary } from '../../components/domain/GoalsSummary';
 import styles from './Dashboard.module.css';
@@ -24,7 +25,10 @@ export function Dashboard() {
       </motion.div>
       
       <motion.section variants={listItemVariants} className={styles.section}>
-        <h2 className={styles.sectionTitle}>Cartões</h2>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle} style={{ marginBottom: 0 }}>Cartões</h2>
+          <Link to="/cards" className={styles.manageCardsLink}>Gerenciar Cartões</Link>
+        </div>
         <CreditCardCarousel />
       </motion.section>
 

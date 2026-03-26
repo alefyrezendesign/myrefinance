@@ -1,34 +1,45 @@
 :root {
   /* ─── Backgrounds ─── */
-  --color-background: #0E0E11;
-  --color-surface: #17171C;
-  --color-surface-2: #1E1E26;
-  --color-surface-hover: #22222D;
-  --color-overlay: rgba(0, 0, 0, 0.75);
+  --color-background: #09090B;
+  --color-surface: #121214;
+  --color-surface-2: #18181B;
+  --color-surface-hover: #27272A;
+  --color-surface-glass: rgba(18, 18, 20, 0.6);
+  --color-surface-elevated: #1E1E22;
+  --color-overlay: rgba(9, 9, 11, 0.75);
 
   /* ─── Brand Colors ─── */
   --color-primary-green: #00D26A;
-  --color-primary-green-dim: rgba(0, 210, 106, 0.15);
-  --color-primary-red: #FF4D6A;
-  --color-primary-red-dim: rgba(255, 77, 106, 0.12);
-  --color-accent: #6C63FF;
-  --color-accent-dim: rgba(108, 99, 255, 0.15);
-  --color-info: #4DABFF;
-  --color-info-dim: rgba(77, 171, 255, 0.15);
+  --color-primary-green-dim: rgba(0, 210, 106, 0.12);
+  --color-primary-green-hover: #00E676;
+  --color-primary-red: #F43F5E;
+  --color-primary-red-dim: rgba(244, 63, 94, 0.12);
+  --color-warning: #F59E0B;
+  --color-warning-dim: rgba(245, 158, 11, 0.12);
+  --color-accent: #6366F1;
+  --color-accent-dim: rgba(99, 102, 241, 0.12);
+  --color-info: #3B82F6;
+  --color-info-dim: rgba(59, 130, 246, 0.12);
+  --color-neutral: #52525B;
+  --color-neutral-dim: rgba(82, 82, 91, 0.2);
 
   /* ─── Text ─── */
-  --color-text-primary: #F1F1F3;
-  --color-text-secondary: #A0A0B8;
-  --color-text-muted: #6E6E85;
-  --color-text-inverse: #0E0E11;
+  --color-text-primary: #FAFAFA;
+  --color-text-secondary: #A1A1AA;
+  --color-text-muted: #71717A;
+  --color-text-inverse: #09090B;
 
   /* ─── Borders ─── */
-  --color-border: #2A2A35;
+  --color-border: #27272A;
   --color-border-light: rgba(255, 255, 255, 0.06);
-  --color-border-medium: rgba(255, 255, 255, 0.1);
+  --color-border-medium: rgba(255, 255, 255, 0.12);
 
   /* ─── Typography ─── */
   --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
   --font-size-xs: 11px;
   --font-size-sm: 13px;
   --font-size-base: 15px;
@@ -36,7 +47,7 @@
   --font-size-xl: 20px;
   --font-size-2xl: 24px;
   --font-size-3xl: 32px;
-  --font-size-hero: 42px;
+  --font-size-hero: 44px;
 
   /* ─── Spacing ─── */
   --spacing-xs: 4px;
@@ -50,19 +61,35 @@
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 14px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 32px;
   --radius-full: 9999px;
 
   /* ─── Shadows ─── */
-  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.55);
-  --shadow-green: 0 4px 20px rgba(0, 210, 106, 0.25);
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-green: 0 4px 24px rgba(0, 210, 106, 0.2), 0 2px 8px rgba(0, 210, 106, 0.15);
+  --shadow-red: 0 4px 24px rgba(244, 63, 94, 0.2), 0 2px 8px rgba(244, 63, 94, 0.15);
+
+  /* ─── Glow Effects ─── */
+  --glow-subtle: 0 0 12px rgba(255, 255, 255, 0.03);
+  --glow-green: 0 0 20px rgba(0, 210, 106, 0.15);
+  --glow-red: 0 0 20px rgba(244, 63, 94, 0.15);
+
+  /* ─── Gradients ─── */
+  --gradient-card-shine: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%);
+  --gradient-surface: linear-gradient(160deg, var(--color-surface-2) 0%, var(--color-background) 100%);
+  --border-highlight: 0.5px solid rgba(255, 255, 255, 0.06);
+
+  /* ─── Component Sizes ─── */
+  --progress-height: 6px;
 
   /* ─── Transitions ─── */
-  --transition-fast: 0.15s ease;
-  --transition-base: 0.2s ease;
-  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }

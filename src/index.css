@@ -22,13 +22,13 @@ body {
   height: 100vh;
   height: 100dvh;
   margin: 0 auto;
-  background-color: var(--color-background, #121212);
+  background-color: var(--color-background);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
   transform: translateX(0); /* VITAL: Resets the viewport context so 'fixed' elements stay inside the 480px width */
-  box-shadow: 0 0 40px rgba(0, 200, 83, 0.05);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.8);
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
 }

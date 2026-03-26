@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ArrowLeft, CheckCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, CheckCircle, CreditCard } from 'lucide-react';
 import { format, addMonths, subMonths } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useFinance } from '../../context/FinanceContext';
@@ -118,7 +118,12 @@ export function Invoice() {
         <button className={styles.backButton} onClick={() => navigate(-1)}>
           <ArrowLeft size={24} />
         </button>
-        <h1 className={styles.title}>Fatura: {card.name}</h1>
+        <h1 className={styles.title} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className={styles.titleIconBadge} style={{ borderLeftColor: card.color, borderLeftWidth: '3px' }}>
+            <CreditCard size={14} color={card.color} />
+          </div>
+          Fatura: {card.name}
+        </h1>
         <div style={{ width: 24 }} />
       </header>
 

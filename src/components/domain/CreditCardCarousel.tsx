@@ -13,11 +13,6 @@ export function CreditCardCarousel() {
 
   return (
     <div className={styles.carouselContainer}>
-      <div className={styles.carouselHeader}>
-        <button className={styles.manageButton} onClick={() => navigate('/cards')}>
-          Gerenciar Cartões
-        </button>
-      </div>
       {data.cards.length === 0 ? (
         <div className={styles.emptyCard}>
           <div className={styles.emptyIcon}><CardIcon size={32} /></div>
@@ -36,7 +31,7 @@ export function CreditCardCarousel() {
               f => f.cartaoId === card.id && f.referenciaAno === selectedYear && f.referenciaMes === selectedMonthIdx
             );
             const invoiceValue = selectedInvoice ? selectedInvoice.valorTotal : 0;
-            const invoiceLabel = `Fatura ${format(currentMonth, 'MMM', { locale: ptBR })}`.replace('.', '');
+            const invoiceLabel = `Fatura ${format(currentMonth, 'MMMM', { locale: ptBR })}`.replace('.', '');
             
             const usedLimit = (data.faturas || [])
               .filter(f => f.cartaoId === card.id && f.status !== 'paga')

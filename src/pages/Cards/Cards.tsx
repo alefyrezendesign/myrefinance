@@ -112,9 +112,9 @@ export function Cards() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 16px', fontSize: '12px', color: 'var(--color-text-muted)' }}>
-                  <span>Fechamento <span style={{ color: 'var(--color-text-secondary)' }}>Dia {card.closingDay}</span></span>
-                  <span>Vencimento <span style={{ color: 'var(--color-text-secondary)' }}>Dia {card.dueDay}</span></span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
+                  <span>Fechamento <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>Dia {card.closingDay}</span></span>
+                  <span>Vencimento <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>Dia {card.dueDay}</span></span>
                 </div>
 
                 <div className={styles.cardFooter}>

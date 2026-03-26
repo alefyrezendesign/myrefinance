@@ -12,8 +12,8 @@
 
 .title {
   font-size: var(--font-size-2xl);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.03em;
   color: var(--color-text-primary);
 }
 
@@ -21,53 +21,59 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: rgba(0, 210, 106, 0.08);
+  background-color: var(--color-primary-green-dim);
   color: var(--color-primary-green);
   padding: 8px 16px;
   border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  border: 1px solid rgba(0, 210, 106, 0.2);
-  transition: all var(--transition-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(0, 210, 106, 0.3);
+  transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
 .addButton:hover {
   background-color: rgba(0, 210, 106, 0.14);
-  border-color: rgba(0, 210, 106, 0.35);
+  border-color: rgba(0, 210, 106, 0.5);
+  transform: translateY(-1px);
 }
 
 .cardsList {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 .emptyState {
   text-align: center;
   color: var(--color-text-muted);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-2xl) var(--spacing-xl);
   background-color: var(--color-surface);
-  border-radius: var(--radius-md);
-  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-xl);
+  border: 1px dashed var(--color-border-medium);
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .cardItem {
   background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  padding: var(--spacing-md);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-medium);
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   cursor: pointer;
-  transition: border-color var(--transition-base), background-color var(--transition-base), transform var(--transition-base);
+  transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
 .cardItem:hover {
-  border-color: var(--color-border-medium);
-  background-color: var(--color-surface-hover);
-  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), var(--glow-subtle);
 }
 
 .cardHeader {
@@ -79,77 +85,83 @@
 .cardTitle {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   letter-spacing: -0.01em;
 }
 
 .editButton {
   color: var(--color-text-muted);
-  padding: 6px;
-  border-radius: var(--radius-xs);
-  transition: all var(--transition-base);
+  padding: 8px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .editButton:hover {
-  background-color: var(--color-surface-2);
+  background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
 }
 
 .cardDetails {
   display: flex;
   justify-content: space-between;
-  margin: 2px 0;
+  margin: 4px 0;
 }
 
 .detailGroup {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .label {
   font-size: 10px;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  font-weight: 500;
+  letter-spacing: 0.1em;
+  font-weight: var(--font-weight-bold);
 }
 
 .value {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .valueGreen {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-green);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .cardFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--color-border-light);
-  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--spacing-md);
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
-  margin-top: 2px;
+  margin-top: 4px;
+  font-weight: var(--font-weight-medium);
 }
 
 .footerRight {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   color: var(--color-primary-green);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .paddingBottom {
