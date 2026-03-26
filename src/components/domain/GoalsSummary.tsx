@@ -34,7 +34,7 @@ export function GoalsSummary() {
         const currentMonthData = schedule.find(s => s.monthKey === currentMonthKey);
 
         return (
-          <div key={goal.id} className={styles.goalCard} onClick={() => navigate(`/goals/${goal.id}`)}>
+          <div key={goal.id} className={styles.goalCard} onClick={() => navigate(`/goals/${goal.id}`)} style={{ borderColor: `${goal.color || '#00E676'}33` }}>
             <div className={styles.header}>
               <span className={styles.goalName}>{goal.name}</span>
               <span className={styles.durationText}>Prazo: {goal.durationMonths} meses</span>
@@ -48,7 +48,7 @@ export function GoalsSummary() {
             <div className={styles.progressBarBg}>
               <div 
                 className={styles.progressBarFill}
-                style={{ width: `${progressPercent}%` }}
+                style={{ width: `${progressPercent}%`, background: goal.color || undefined }}
               />
             </div>
             

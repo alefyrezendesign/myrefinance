@@ -111,7 +111,7 @@ export function Limits() {
                     className={styles.progressFill} 
                     style={{ 
                       width: `${percentage}%`,
-                      backgroundColor: hasWarning ? 'var(--color-primary-red)' : 'var(--color-primary-green)'
+                      backgroundColor: category?.color || 'var(--color-primary-green)'
                     }} 
                   />
                 </div>

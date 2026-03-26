@@ -76,7 +76,7 @@ export function LimitsSummary() {
             <div className={styles.progressBarBg}>
               <div 
                 className={isExceeded ? styles.progressBarDanger : styles.progressBarFill}
-                style={{ width: `${progressPercent}%` }}
+                style={{ width: `${progressPercent}%`, backgroundColor: category.color }}
               />
             </div>
 

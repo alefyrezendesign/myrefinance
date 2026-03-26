@@ -23,8 +23,14 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
   const [name, setName] = useState('');
   const [targetAmount, setTargetAmount] = useState('');
   const [durationMonths, setDurationMonths] = useState('');
-  const [selMonth, setSelMonth] = useState(new Date().getMonth()); // 0-11
+  const [selMonth, setSelMonth] = useState(new Date().getMonth());
   const [selYear, setSelYear] = useState(new Date().getFullYear());
+  const [color, setColor] = useState('#00D26A');
+
+  const goalColors = [
+    '#00D26A', '#00BFFF', '#FF6B6B', '#FFD93D',
+    '#A78BFA', '#FF8C42', '#00E5CC', '#FF63B8',
+  ];
 
   useEffect(() => {
     if (goalToEdit) {
@@ -35,12 +41,14 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
         setDurationMonths(goalToEdit.durationMonths.toString());
         setSelMonth(date.getMonth());
         setSelYear(date.getFullYear());
+        setColor(goalToEdit.color || '#00D26A');
       }, 0);
     } else {
       setTimeout(() => {
         setName('');
         setTargetAmount('');
         setDurationMonths('');
+        setColor('#00D26A');
         const now = new Date();
         setSelMonth(now.getMonth());
         setSelYear(now.getFullYear());
@@ -74,7 +82,8 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
         targetAmount: parseFloat(targetAmount), 
         durationMonths: parseInt(durationMonths),
         startDate: start.toISOString(),
-        endDate: newEndDate
+        endDate: newEndDate,
+        color
       }).eq('id', goalToEdit.id);
       await refreshData();
     } else {
@@ -89,6 +98,7 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
         startDate: start.toISOString(),
         endDate: end.toISOString(),
         progress: [],
+        color,
       };
       await supabase.from('goals').insert(newGoal);
       await refreshData();
@@ -181,6 +191,21 @@ export function GoalModal({ isOpen, onClose, goalToEdit }: GoalModalProps) {
                   <option key={y} value={y}>{y}</option>
                 ))}
               </select>
+            </div>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label>Cor do Objetivo</label>
+            <div className={styles.colorPicker}>
+              {goalColors.map(c => (
+                <button
+                  key={c}
+                  type="button"
+                  className={`${styles.colorSwatch} ${color === c ? styles.colorSwatchSelected : ''}`}
+                  style={{ backgroundColor: c, boxShadow: color === c ? `0 0 0 2px var(--color-background), 0 0 0 4px ${c}` : 'none' }}
+                  onClick={() => setColor(c)}
+                />
+              ))}
             </div>
           </div>
         </div>

@@ -30,10 +30,10 @@ export function Goals() {
           const percent = goal.targetAmount > 0 ? (totalSaved / goal.targetAmount) * 100 : 0;
           
           return (
-            <div key={goal.id} className={styles.card} onClick={() => navigate(`/goals/${goal.id}`)}>
+            <div key={goal.id} className={styles.card} onClick={() => navigate(`/goals/${goal.id}`)} style={{ borderColor: `${goal.color || '#00E676'}33` }}>
               <div className={styles.cardHeader}>
                 <div className={styles.cardTitle}>
-                  <Target size={20} className={styles.icon} />
+                  <Target size={20} className={styles.icon} style={{ color: goal.color || undefined, filter: `drop-shadow(0 0 4px ${goal.color || '#00E676'}66)` }} />
                   <h3>{goal.name}</h3>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -43,13 +43,13 @@ export function Goals() {
                   >
                     <Edit2 size={16} />
                   </button>
-                  <span className={styles.percent}>{percent.toFixed(0)}%</span>
+                  <span className={styles.percent} style={{ color: goal.color || undefined, background: `${goal.color || '#00E676'}1A` }}>{percent.toFixed(0)}%</span>
                 </div>
               </div>
               
               <div className={styles.progressContainer}>
                 <div className={styles.progressBar}>
-                  <div className={styles.progressFill} style={{ width: `${Math.min(percent, 100)}%` }} />
+                  <div className={styles.progressFill} style={{ width: `${Math.min(percent, 100)}%`, background: goal.color || undefined, boxShadow: `0 0 8px ${goal.color || '#00D26A'}80` }} />
                 </div>
                 <div className={styles.amounts}>
                   <span className={styles.saved}>Guardado: <strong>{formatCurrency(totalSaved)}</strong></span>
@@ -66,10 +66,11 @@ export function Goals() {
               <div className={styles.cardFooter}>
                 <div className={styles.footerInfo}>
                   <p>Duração: {goal.durationMonths} meses</p>
-                  <p className={styles.suggestion}>Meta mensal: {formatCurrency(goal.targetAmount / goal.durationMonths)}</p>
+                  <p className={styles.suggestion} style={{ color: goal.color || undefined }}>Meta mensal: {formatCurrency(goal.targetAmount / goal.durationMonths)}</p>
                 </div>
                 <button 
                   className={styles.addBtn}
+                  style={{ backgroundColor: goal.color || undefined, boxShadow: `0 4px 10px ${goal.color || '#00E676'}33` }}
                   onClick={(e) => { e.stopPropagation(); navigate(`/goals/${goal.id}`); }}
                 >
                   Ver objetivo

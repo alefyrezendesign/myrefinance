@@ -92,6 +92,7 @@ export interface Goal extends BaseEntity {
   startDate: string; 
   endDate: string; 
   progress: GoalMonth[];
+  color?: string;
 }
 
 export interface InvoicePayment extends BaseEntity {
