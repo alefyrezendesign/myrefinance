@@ -70,17 +70,14 @@ export function CashFlow() {
     .reduce((acc, t) => acc + t.amount, 0)
     + currentMonthFaturas.reduce((acc, f) => acc + f.valorTotal, 0);
 
-  // Saldo Atual = soma de TODAS as receitas recebidas - TODAS as despesas pagas - TODAS as faturas pagas (global, todos os meses)
-  const allPaidIncomes = data.transactions
-    .filter(t => !t.cartaoId && !t.isInvoicePayment && t.type === 'income' && t.status === 'paid')
-    .reduce((acc, t) => acc + t.amount, 0);
-  const allPaidExpenses = data.transactions
-    .filter(t => !t.cartaoId && !t.isInvoicePayment && t.type === 'expense' && t.status === 'paid')
-    .reduce((acc, t) => acc + t.amount, 0);
-  const allPaidInvoices = (data.faturas || [])
-    .filter(f => f.status === 'paga')
-    .reduce((acc, f) => acc + f.valorTotal, 0);
-  const currentBalance = allPaidIncomes - allPaidExpenses - allPaidInvoices;
+  // Saldo Atual: Fixo e permanente (todas as transações realizadas, independente do mês)
+  const currentBalance = data.transactions
+    .filter(t => !t.cartaoId && t.status === 'paid')
+    .reduce((acc, t) => {
+      if (t.type === 'income') return acc + t.amount;
+      if (t.type === 'expense') return acc - t.amount;
+      return acc;
+    }, 0);
 
   // Prev. Receitas
   const predictedIncomesMonth = paidIncomesMonth + pendingIncomesMonth;

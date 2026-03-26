@@ -400,6 +400,13 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         if (relevantFaturas.length > 0) {
           const { error: fatErr } = await supabase.from('faturas').upsert(relevantFaturas);
           if (fatErr) throw new Error(`Faturas: ${fatErr.message}`);
+
+          // Update corresponding payment transactions for paid invoices
+          for (const fatura of relevantFaturas) {
+            if (fatura.status === 'paga' && fatura.paymentTxId) {
+              await supabase.from('transactions').update({ amount: fatura.valorTotal }).eq('id', fatura.paymentTxId);
+            }
+          }
         }
         // 2. Transaction
         const { error: txErr } = await supabase.from('transactions').insert(newTx);
@@ -452,6 +459,13 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         if (relevantFaturas.length > 0) {
           const { error: fatErr } = await supabase.from('faturas').upsert(relevantFaturas);
           if (fatErr) throw new Error(`Faturas: ${fatErr.message}`);
+
+          // Update corresponding payment transactions for paid invoices
+          for (const fatura of relevantFaturas) {
+            if (fatura.status === 'paga' && fatura.paymentTxId) {
+              await supabase.from('transactions').update({ amount: fatura.valorTotal }).eq('id', fatura.paymentTxId);
+            }
+          }
         }
         // 2. Transactions
         const { error: txErr } = await supabase.from('transactions').insert(newTxs);
@@ -495,44 +509,46 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     ) as Transaction;
     
     try {
-      if (!sanitized.cartaoId) {
-        const { error } = await supabase.from('transactions').update(sanitized).eq('id', sanitized.id);
-        if (error) throw new Error(`Update: ${error.message}`);
-      } else {
-        const oldParcelas = data.parcelas.filter(p => p.lancamentoId === sanitized.id);
-        
-        // 1. Delete old parcelas first
-        if (oldParcelas.length > 0) {
-          const { error: delErr } = await supabase.from('parcelas').delete().in('id', oldParcelas.map(p => p.id));
-          if (delErr) throw new Error(`Delete parcelas: ${delErr.message}`);
+      const oldParcelas = data.parcelas.filter(p => p.lancamentoId === sanitized.id);
+      
+      // 1. Delete old parcelas first
+      if (oldParcelas.length > 0) {
+        const { error: delErr } = await supabase.from('parcelas').delete().in('id', oldParcelas.map(p => p.id));
+        if (delErr) throw new Error(`Delete parcelas: ${delErr.message}`);
+      }
+      
+      // 2. Compute new state
+      const intermediateState = removeTransactionFromState(data, sanitized.id);
+      const newState = addTransactionToState(intermediateState, sanitized);
+      
+      const oldTx = data.transactions.find(t => t.id === sanitized.id);
+      const relevantCartaoIds = [oldTx?.cartaoId, sanitized.cartaoId].filter(Boolean);
+      
+      const newParcelas = newState.parcelas.filter(p => p.lancamentoId === sanitized.id);
+      const relevantFaturasIdSet = new Set([...oldParcelas.map(p => p.faturaId), ...newParcelas.map(p => p.faturaId)]);
+      const modifiedFaturas = newState.faturas.filter(f => relevantCartaoIds.includes(f.cartaoId) && relevantFaturasIdSet.has(f.id));
+      
+      // 3. Upsert faturas
+      if (modifiedFaturas.length > 0) {
+        const { error: fatErr } = await supabase.from('faturas').upsert(modifiedFaturas);
+        if (fatErr) throw new Error(`Faturas upsert: ${fatErr.message}`);
+
+        // Update corresponding payment transactions for paid invoices
+        for (const fatura of modifiedFaturas) {
+          if (fatura.status === 'paga' && fatura.paymentTxId) {
+            await supabase.from('transactions').update({ amount: fatura.valorTotal }).eq('id', fatura.paymentTxId);
+          }
         }
-        
-        // 2. Compute new state
-        const intermediateState = removeTransactionFromState(data, sanitized.id);
-        const newState = addTransactionToState(intermediateState, sanitized);
-        
-        const oldTx = data.transactions.find(t => t.id === sanitized.id);
-        const relevantCartaoIds = [oldTx?.cartaoId, sanitized.cartaoId].filter(Boolean);
-        
-        const newParcelas = newState.parcelas.filter(p => p.lancamentoId === sanitized.id);
-        const relevantFaturasIdSet = new Set([...oldParcelas.map(p => p.faturaId), ...newParcelas.map(p => p.faturaId)]);
-        const modifiedFaturas = newState.faturas.filter(f => relevantCartaoIds.includes(f.cartaoId) && relevantFaturasIdSet.has(f.id));
-        
-        // 3. Upsert faturas
-        if (modifiedFaturas.length > 0) {
-          const { error: fatErr } = await supabase.from('faturas').upsert(modifiedFaturas);
-          if (fatErr) throw new Error(`Faturas upsert: ${fatErr.message}`);
-        }
-        
-        // 4. Update the transaction
-        const { error: txErr } = await supabase.from('transactions').update(sanitized).eq('id', sanitized.id);
-        if (txErr) throw new Error(`Transaction update: ${txErr.message}`);
-        
-        // 5. Insert new parcelas
-        if (newParcelas.length > 0) {
-          const { error: pErr } = await supabase.from('parcelas').insert(newParcelas);
-          if (pErr) throw new Error(`Parcelas insert: ${pErr.message}`);
-        }
+      }
+      
+      // 4. Update the transaction
+      const { error: txErr } = await supabase.from('transactions').update(sanitized).eq('id', sanitized.id);
+      if (txErr) throw new Error(`Transaction update: ${txErr.message}`);
+      
+      // 5. Insert new parcelas
+      if (newParcelas.length > 0) {
+        const { error: pErr } = await supabase.from('parcelas').insert(newParcelas);
+        if (pErr) throw new Error(`Parcelas insert: ${pErr.message}`);
       }
     } catch (err) {
       console.error('Error editing transaction:', err);
@@ -583,6 +599,13 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         if (modifiedFaturas.length > 0) {
           const { error: fatErr } = await supabase.from('faturas').upsert(modifiedFaturas);
           if (fatErr) throw new Error(`Faturas update: ${fatErr.message}`);
+
+          // Update corresponding payment transactions for paid invoices
+          for (const fatura of modifiedFaturas) {
+            if (fatura.status === 'paga' && fatura.paymentTxId) {
+              await supabase.from('transactions').update({ amount: fatura.valorTotal }).eq('id', fatura.paymentTxId);
+            }
+          }
         }
       }
       
