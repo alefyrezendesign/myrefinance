@@ -1,10 +1,12 @@
 import { CreditCard as CardIcon, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { useFinance } from '../../context/FinanceContext';
 import styles from './CreditCardCarousel.module.css';
 
 export function CreditCardCarousel() {
-  const { data } = useFinance();
+  const { data, currentMonth } = useFinance();
   const navigate = useNavigate();
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -27,14 +29,14 @@ export function CreditCardCarousel() {
       ) : (
         <div className={styles.cardsList}>
           {data.cards.map(card => {
-            const now = new Date();
-            const currentYear = now.getFullYear();
-            const currentMonth = now.getMonth();
+            const selectedYear = currentMonth.getFullYear();
+            const selectedMonthIdx = currentMonth.getMonth();
 
-            const currentInvoice = (data.faturas || []).find(
-              f => f.cartaoId === card.id && f.referenciaAno === currentYear && f.referenciaMes === currentMonth
+            const selectedInvoice = (data.faturas || []).find(
+              f => f.cartaoId === card.id && f.referenciaAno === selectedYear && f.referenciaMes === selectedMonthIdx
             );
-            const invoiceValue = currentInvoice ? currentInvoice.valorTotal : 0;
+            const invoiceValue = selectedInvoice ? selectedInvoice.valorTotal : 0;
+            const invoiceLabel = `Fatura ${format(currentMonth, 'MMM', { locale: ptBR })}`.replace('.', '');
             
             const usedLimit = (data.faturas || [])
               .filter(f => f.cartaoId === card.id && f.status !== 'paga')
@@ -65,7 +67,7 @@ export function CreditCardCarousel() {
                 
                 <div className={styles.cardContent}>
                   <div className={styles.invoiceSection}>
-                    <p className={styles.cardLabel}>Fatura Atual</p>
+                    <p className={styles.cardLabel} style={{ textTransform: 'capitalize' }}>{invoiceLabel}</p>
                     <p className={styles.invoiceAmount}>{formatCurrency(invoiceValue)}</p>
                   </div>
                   
