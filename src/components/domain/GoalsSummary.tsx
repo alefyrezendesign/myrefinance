@@ -37,7 +37,7 @@ export function GoalsSummary() {
           <div key={goal.id} className={styles.goalCard} onClick={() => navigate(`/goals/${goal.id}`)} style={{ borderColor: `${goal.color || '#00E676'}33` }}>
             <div className={styles.header}>
               <span className={styles.goalName}>{goal.name}</span>
-              <span className={styles.durationText}>Prazo: {goal.durationMonths} meses</span>
+              <span className={styles.durationText} style={{ color: goal.color || undefined, backgroundColor: goal.color ? `${goal.color}1A` : undefined, borderColor: goal.color ? `${goal.color}33` : undefined }}>Prazo: {goal.durationMonths} meses</span>
             </div>
             
             <div className={styles.values}>
