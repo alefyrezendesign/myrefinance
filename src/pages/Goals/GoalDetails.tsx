@@ -84,7 +84,7 @@ export function GoalDetails() {
       <div className={styles.headerPremium}>
         <div className={styles.headerTop}>
           <div className={styles.titleWrapper}>
-            <div className={styles.titleIcon}>
+            <div className={styles.titleIcon} style={{ background: `${goal.color || '#00D26A'}1A`, color: goal.color || undefined, borderColor: `${goal.color || '#00D26A'}33` }}>
               <Target size={28} />
             </div>
             <div className={styles.titleContent}>
@@ -94,8 +94,8 @@ export function GoalDetails() {
           </div>
           <div className={styles.progressCircleContainer}>
             <div className={styles.progressPercentage}>
-              <span className={styles.percentValue}>{percent.toFixed(1)}</span>
-              <span className={styles.percentSymbol}>%</span>
+              <span className={styles.percentValue} style={{ color: goal.color || undefined, textShadow: `0 0 16px ${goal.color || '#00C853'}33` }}>{percent.toFixed(1)}</span>
+              <span className={styles.percentSymbol} style={{ color: goal.color || undefined }}>%</span>
             </div>
             <span className={styles.progressLabel}>Concluído</span>
           </div>
@@ -107,13 +107,13 @@ export function GoalDetails() {
             <span className={styles.progressLabelRight}>Meta: {formatCurrency(goal.targetAmount)}</span>
           </div>
           <div className={styles.progressTrack}>
-            <div className={styles.progressFill} style={{ width: `${percent}%` }} />
+            <div className={styles.progressFill} style={{ width: `${percent}%`, background: goal.color || undefined }} />
           </div>
         </div>
         
         <div className={styles.statsPremiumGrid}>
           <div className={styles.statPrimaryBox}>
-            <div className={styles.statIconWrapper}>
+            <div className={styles.statIconWrapper} style={{ background: `${goal.color || '#00C853'}1A`, color: goal.color || undefined }}>
               <PiggyBank size={18} />
             </div>
             <div className={styles.statPrimaryContent}>

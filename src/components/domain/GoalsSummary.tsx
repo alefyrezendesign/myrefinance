@@ -41,7 +41,7 @@ export function GoalsSummary() {
             </div>
             
             <div className={styles.values}>
-              <span className={styles.savedText}>{formatCurrency(totalSaved)}</span>
+              <span className={styles.savedText} style={{ background: goal.color ? 'transparent' : undefined, color: goal.color || undefined }}>{formatCurrency(totalSaved)}</span>
               <span className={styles.totalText}> / {formatCurrency(goal.targetAmount)}</span>
             </div>
 
@@ -59,13 +59,13 @@ export function GoalsSummary() {
                 ) : (
                   <span className={styles.totalMissingText} style={{ color: 'var(--color-primary-green)' }}>Meta atingida!</span>
                 )}
-                <span className={styles.percentText}>{progressPercent.toFixed(0)}% concluído</span>
+                <span className={styles.percentText} style={{ color: goal.color || undefined }}>{progressPercent.toFixed(0)}% concluído</span>
               </div>
               
               <div className={styles.monthStatusBox}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span className={styles.monthStatusLabel}>{format(currentMonth, 'MMMM yyyy', { locale: ptBR })}</span>
-                  {currentMonthData?.status === 'paid' && <span className={styles.monthStatusSuccess} style={{marginTop: 0, fontSize: '11px'}}><CheckCircle2 size={12}/> Concluído</span>}
+                  {currentMonthData?.status === 'paid' && <span className={styles.monthStatusSuccess} style={{marginTop: 0, fontSize: '11px', color: goal.color || undefined}}><CheckCircle2 size={12}/> Concluído</span>}
                   {currentMonthData?.status === 'pending' && currentMonthData.paidAmount > 0 && <span className={styles.monthStatusMuted} style={{marginTop: 0, fontSize: '11px'}}>Em Andamento</span>}
                   {currentMonthData?.status === 'skipped' && <span className={styles.monthStatusMuted} style={{marginTop: 0, fontSize: '11px'}}>Mês Pulado</span>}
                 </div>
@@ -78,7 +78,7 @@ export function GoalsSummary() {
                     </div>
                     <div className={styles.monthCol}>
                       <span className={styles.monthColLabel}>Já guardado</span>
-                      <span className={styles.monthColValueSuccess}>{formatCurrency(currentMonthData.paidAmount)}</span>
+                      <span className={styles.monthColValueSuccess} style={{ color: goal.color || undefined }}>{formatCurrency(currentMonthData.paidAmount)}</span>
                     </div>
                     <div className={styles.monthCol}>
                       {currentMonthData.status === 'skipped' ? (
@@ -92,7 +92,7 @@ export function GoalsSummary() {
                            {currentMonthData.expectedAmount - currentMonthData.paidAmount > 0 ? (
                              <span className={styles.monthColValueDanger}>{formatCurrency(currentMonthData.expectedAmount - currentMonthData.paidAmount)}</span>
                            ) : (
-                             <span className={styles.monthColValueSuccess}>R$ 0,00</span>
+                             <span className={styles.monthColValueSuccess} style={{ color: goal.color || undefined }}>R$ 0,00</span>
                            )}
                          </>
                       )}
