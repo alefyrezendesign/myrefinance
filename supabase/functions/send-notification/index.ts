@@ -20,6 +20,8 @@ serve(async (req) => {
     }
 
     console.log(`Sending ${type} notification to user ${userId}`)
+    console.log(`OneSignal App ID: ${ONESIGNAL_APP_ID ? 'SET' : 'MISSING'}`)
+    console.log(`OneSignal API Key: ${ONESIGNAL_API_KEY ? 'SET' : 'MISSING'}`)
 
     const response = await fetch("https://onesignal.com/api/v1/notifications", {
       method: "POST",
@@ -29,15 +31,19 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         app_id: ONESIGNAL_APP_ID,
-        include_external_user_ids: [userId],
+        // Use include_aliases instead of deprecated include_external_user_ids
+        include_aliases: { external_id: [userId] },
+        target_channel: "push",
         headings: { en: title, pt: title },
         contents: { en: message, pt: message }
       })
     })
 
     const result = await response.json()
+    console.log('OneSignal API response:', JSON.stringify(result))
     return new Response(JSON.stringify(result), { headers: { "Content-Type": "application/json" } })
   } catch (error) {
+    console.error('Error sending notification:', error)
     return new Response(JSON.stringify({ error: error.message }), { status: 400 })
   }
 })
